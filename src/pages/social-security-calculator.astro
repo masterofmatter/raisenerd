@@ -1,0 +1,240 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Social Security Break-Even Calculator — Free | RaiseNerd"
+  description="Find the break-even age for claiming Social Security early vs. late. Compare any two claiming ages and see which strategy pays more over your lifetime. Free, no signup."
+>
+  <div class="card">
+    <h1>Social Security Break-Even Calculator</h1>
+    <p>Compare two claiming ages to find the break-even point — the age at which the higher monthly benefit of waiting overtakes the head start of claiming early.</p>
+  </div>
+
+  <div class="card">
+    <div class="calc-form">
+      <div class="field">
+        <label for="fra-benefit">Your Monthly Benefit at Full Retirement Age (67)</label>
+        <input type="number" id="fra-benefit" placeholder="e.g. 1800" min="100" step="10" />
+        <p class="field-hint">Find this on your Social Security statement at ssa.gov/myaccount</p>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="early-age">Claim Early At Age</label>
+          <select id="early-age">
+            <option value="62">62</option>
+            <option value="63">63</option>
+            <option value="64">64</option>
+            <option value="65">65</option>
+            <option value="66" selected>66</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="late-age">Compare To Age</label>
+          <select id="late-age">
+            <option value="67" selected>67 (FRA)</option>
+            <option value="68">68</option>
+            <option value="69">69</option>
+            <option value="70">70 (Maximum)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="current-age">Your Current Age</label>
+        <input type="number" id="current-age" placeholder="e.g. 55" min="40" max="66" step="1" />
+        <p class="field-hint">Used to show years until break-even</p>
+      </div>
+      <button class="btn" onclick="calculate()">Calculate Break-Even</button>
+    </div>
+
+    <div class="results" id="results">
+      <div id="result-summary"></div>
+      <div class="results-grid" style="margin-top:1rem;">
+        <div class="result-item">
+          <span class="result-value" id="early-monthly">—</span>
+          <span class="result-label">Early Monthly Benefit</span>
+        </div>
+        <div class="result-item">
+          <span class="result-value" id="late-monthly">—</span>
+          <span class="result-label">Later Monthly Benefit</span>
+        </div>
+        <div class="result-item result-highlight">
+          <span class="result-value" id="breakeven-age">—</span>
+          <span class="result-label">Break-Even Age</span>
+        </div>
+        <div class="result-item">
+          <span class="result-value" id="years-away">—</span>
+          <span class="result-label">Years Until Break-Even</span>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <strong style="font-size:0.8rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.04em;">Cumulative Benefits Received</strong>
+        <table class="bench-table" style="margin-top:0.6rem;">
+          <thead>
+            <tr>
+              <th>At Age</th>
+              <th id="col-early">Early (age —)</th>
+              <th id="col-late">Later (age —)</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody id="cumul-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How Social Security Break-Even Works</h2>
+    <p>Claiming early means a smaller monthly check but more years of collecting. Waiting means a larger check but fewer years. The break-even is the age where total lifetime benefits are equal.</p>
+    <div class="formula-box" style="margin-top:0.75rem;">
+      <p><strong>Benefit at 62</strong> = FRA benefit × 70% (30% permanent reduction)</p>
+      <p><strong>Benefit at 70</strong> = FRA benefit × 124% (24% permanent increase)</p>
+      <p><strong>Break-Even</strong> = Later start age + (Head start ÷ Monthly difference)</p>
+    </div>
+
+    <h2 style="margin-top:1.5rem;">Reduction & Increase by Claiming Age</h2>
+    <table class="bench-table">
+      <thead><tr><th>Claiming Age</th><th>% of FRA Benefit</th><th>vs. Waiting to 70</th></tr></thead>
+      <tbody>
+        <tr><td>62</td><td>70%</td><td>−43% vs. age 70</td></tr>
+        <tr><td>63</td><td>75%</td><td>−40% vs. age 70</td></tr>
+        <tr><td>64</td><td>80%</td><td>−35% vs. age 70</td></tr>
+        <tr><td>65</td><td>86.7%</td><td>−30% vs. age 70</td></tr>
+        <tr><td>66</td><td>93.3%</td><td>−25% vs. age 70</td></tr>
+        <tr><td><strong>67 (FRA)</strong></td><td><strong>100%</strong></td><td>−19% vs. age 70</td></tr>
+        <tr><td>68</td><td>108%</td><td>−13% vs. age 70</td></tr>
+        <tr><td>69</td><td>116%</td><td>−6% vs. age 70</td></tr>
+        <tr><td>70</td><td>124%</td><td>Maximum benefit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is the typical break-even age for claiming at 62 vs. 67?</summary>
+      <p>For most people, the break-even is around age 78–79. If you claim at 62 instead of 67, you receive 60 extra months of smaller checks. Once you reach 79, the person who waited to 67 has caught up in total benefits received. After that, waiting pays off.</p>
+    </details>
+    <details>
+      <summary>What is the break-even for claiming at 67 vs. 70?</summary>
+      <p>Around age 82–83. Waiting from 67 to 70 increases your monthly benefit by 24%, but you forgo 36 months of payments. You need roughly 12.5 years of collecting at the higher rate to break even — which means you need to live past about 82.</p>
+    </details>
+    <details>
+      <summary>Should I claim Social Security early or late?</summary>
+      <p>It depends on your health, other income, and whether you're married. If you have health issues or limited savings, claiming early preserves your nest egg. If you're healthy and have other income to cover ages 62–70, waiting maximizes your lifetime payout and provides more inflation protection later in life. Married couples often benefit from having the higher earner delay to 70 to maximize the survivor benefit.</p>
+    </details>
+    <details>
+      <summary>Does the break-even calculation account for inflation?</summary>
+      <p>This calculator uses today's nominal dollars. Social Security benefits receive annual cost-of-living adjustments (COLA), but since both strategies receive the same COLA percentage, inflation does not change the break-even age when calculated in today's dollars.</p>
+    </details>
+    <details>
+      <summary>Where do I find my estimated Social Security benefit?</summary>
+      <p>Create a free account at ssa.gov/myaccount to see your personalized benefit estimate at ages 62, 67, and 70 based on your actual earnings history. The number shown for age 67 is your FRA benefit — use that as the input above.</p>
+    </details>
+  </div>
+</Layout>
+
+<style>
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+  }
+  #result-summary {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 0.25rem;
+  }
+  .winner-early { color: var(--amber); font-weight: 600; }
+  .winner-late  { color: #059669;     font-weight: 600; }
+  .winner-tie   { color: var(--muted); }
+</style>
+
+<script is:inline>
+function getReductionFactor(claimAge) {
+  const fra = 67;
+  if (claimAge < fra) {
+    const monthsEarly = (fra - claimAge) * 12;
+    const first36 = Math.min(monthsEarly, 36);
+    const extra   = Math.max(monthsEarly - 36, 0);
+    const reduction = (first36 * 5/9 + extra * 5/12) / 100;
+    return 1 - reduction;
+  } else if (claimAge > fra) {
+    return 1 + ((claimAge - fra) * 8) / 100;
+  }
+  return 1.0;
+}
+
+function fmt(n) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+}
+
+function calculate() {
+  const fraB   = parseFloat(document.getElementById('fra-benefit').value);
+  const earlyA = parseInt(document.getElementById('early-age').value);
+  const lateA  = parseInt(document.getElementById('late-age').value);
+  const curAge = parseFloat(document.getElementById('current-age').value) || null;
+
+  if (!fraB || fraB <= 0) { alert('Please enter your monthly FRA benefit.'); return; }
+  if (earlyA >= lateA) { alert('Early age must be less than later age.'); return; }
+
+  const r1 = getReductionFactor(earlyA);
+  const r2 = getReductionFactor(lateA);
+  const m1 = fraB * r1;
+  const m2 = fraB * r2;
+
+  const headStartMonths = (lateA - earlyA) * 12;
+  const headStart = headStartMonths * m1;
+  const monthlyDiff = m2 - m1;
+  const breakEvenMonths = headStart / monthlyDiff;
+  const breakEvenAge = lateA + breakEvenMonths / 12;
+
+  document.getElementById('early-monthly').textContent = fmt(m1);
+  document.getElementById('late-monthly').textContent  = fmt(m2);
+  document.getElementById('breakeven-age').textContent = 'Age ' + breakEvenAge.toFixed(1);
+
+  if (curAge !== null) {
+    const yrs = breakEvenAge - curAge;
+    document.getElementById('years-away').textContent = yrs > 0 ? yrs.toFixed(1) + ' yrs' : 'Already past';
+  } else {
+    document.getElementById('years-away').textContent = '—';
+  }
+
+  document.getElementById('col-early').textContent = 'Claim at ' + earlyA;
+  document.getElementById('col-late').textContent  = 'Claim at ' + lateA;
+
+  document.getElementById('result-summary').textContent =
+    'Break-even at age ' + breakEvenAge.toFixed(1) +
+    ' — live past this age and waiting pays off.';
+
+  const ages = [70, 75, 80, 85, 90, 95];
+  const tbody = document.getElementById('cumul-table');
+  tbody.innerHTML = '';
+  ages.forEach(age => {
+    const c1 = age >= earlyA ? Math.max(age - earlyA, 0) * 12 * m1 : 0;
+    const c2 = age >= lateA  ? Math.max(age - lateA,  0) * 12 * m2 : 0;
+    const winner = c1 > c2
+      ? '<span class="winner-early">Early ↑</span>'
+      : c2 > c1
+        ? '<span class="winner-late">Wait ↑</span>'
+        : '<span class="winner-tie">Tied</span>';
+    tbody.innerHTML += `<tr>
+      <td>${age}</td>
+      <td>${fmt(c1)}</td>
+      <td>${fmt(c2)}</td>
+      <td>${winner}</td>
+    </tr>`;
+  });
+
+  document.getElementById('results').classList.add('show');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('currencychange', () => {
+  if (document.getElementById('results').classList.contains('show')) calculate();
+});
+</script>

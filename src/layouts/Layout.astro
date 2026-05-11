@@ -51,7 +51,6 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
     }
     nav {
       max-width: 1100px;
@@ -296,6 +295,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         <li><a href="/salary-to-hourly-calculator/">Salary ↔ Hourly</a></li>
         <li><a href="/paycheck-calculator/">Paycheck</a></li>
         <li><a href="/cost-of-living-calculator/">Cost of Living</a></li>
+        <li><a href="/social-security-calculator/">Social Security</a></li>
       </ul>
       <select id="currency-select" class="currency-select" onchange="setCurrency(this.value)" aria-label="Currency">
         <option value="USD">$ USD</option>
@@ -313,7 +313,6 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
     <aside class="sidebar">
-      <div class="ad-slot ad-slot-sidebar">Ad</div>
       <div class="card" style="padding:1rem;">
         <p style="font-size:0.8rem;font-weight:700;color:var(--indigo);margin-bottom:0.6rem;">ALL CALCULATORS</p>
         <ul class="sidebar-links">
@@ -322,9 +321,9 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
           <li><a href="/salary-to-hourly-calculator/">Salary to Hourly</a></li>
           <li><a href="/paycheck-calculator/">Paycheck Calculator</a></li>
           <li><a href="/cost-of-living-calculator/">Cost of Living</a></li>
+          <li><a href="/social-security-calculator/">Social Security Calculator</a></li>
         </ul>
       </div>
-      <div class="ad-slot ad-slot-sidebar-tall" style="margin-top:1rem;">Ad</div>
     </aside>
   </div>
 
@@ -357,6 +356,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       <a href="/salary-to-hourly-calculator/">Salary ↔ Hourly</a>
       <a href="/paycheck-calculator/">Paycheck</a>
       <a href="/cost-of-living-calculator/">Cost of Living</a>
+      <a href="/social-security-calculator/">Social Security</a>
     </div>
     <p>© {new Date().getFullYear()} RaiseNerd.com — Free Salary & HR Calculators</p>
     <p style="margin-top:0.4rem;font-size:0.75rem;">Results are estimates for informational purposes. Tax calculations are approximations — consult a payroll professional for exact figures.</p>
