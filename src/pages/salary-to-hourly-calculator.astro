@@ -123,6 +123,13 @@ import Layout from '../layouts/Layout.astro';
       <p>Daily rate × working days per year. Assuming 260 working days (52 weeks × 5 days): a $300/day contract = $78,000/year equivalent. However, contractors typically don't receive employer benefits, paid vacation, or employer-side payroll taxes — so the true comparison to a salaried employee offer should account for those costs, often adding 20–30% to the value of the employee package.</p>
     </details>
   </div>
+
+  <div class="card">
+    <h2>Embed This Calculator</h2>
+    <p>Free to use on your website or blog. Paste one line of HTML — no account or backend needed.</p>
+    <pre id="embed-code" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:0.85rem 1rem;font-size:0.78rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;"></pre>
+    <button id="embed-copy-btn" onclick="copyEmbed()" class="btn" style="font-size:0.85rem;padding:0.5rem 1rem;">Copy Embed Code</button>
+  </div>
 </Layout>
 
 <style>
@@ -170,4 +177,15 @@ document.addEventListener('currencychange', () => {
     document.getElementById('mode-salary').style.display !== 'none' ? calcFromSalary() : calcFromHourly();
   }
 });
+</script>
+
+<script is:inline>
+document.getElementById('embed-code').textContent = '<iframe src="https://raisenerd.com/embed/salary-to-hourly-calculator/" width="100%" height="480" frameborder="0" style="border-radius:8px;border:1px solid #e5e0d8;" title="Salary to Hourly Calculator — RaiseNerd"></iframe>';
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').textContent).then(() => {
+    const btn = document.getElementById('embed-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Embed Code', 2000);
+  });
+}
 </script>

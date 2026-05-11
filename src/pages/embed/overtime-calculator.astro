@@ -1,0 +1,86 @@
+---
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+---
+<EmbedLayout
+  title="Overtime Calculator — RaiseNerd"
+  fullUrl="https://raisenerd.com/overtime-calculator/"
+  fullLabel="Overtime Calculator"
+>
+  <div class="card">
+    <h2>Overtime Calculator</h2>
+    <div class="calc-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="hourly-rate">Hourly Rate ($)</label>
+          <input type="number" id="hourly-rate" placeholder="e.g. 25.00" min="0" step="0.01" />
+        </div>
+        <div class="field">
+          <label for="regular-hours">Regular Hours / Week</label>
+          <input type="number" id="regular-hours" placeholder="e.g. 40" min="0" step="0.5" value="40" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="ot-hours">Overtime Hours (1.5×)</label>
+          <input type="number" id="ot-hours" placeholder="e.g. 8" min="0" step="0.5" value="0" />
+        </div>
+        <div class="field">
+          <label for="dt-hours">Double Time Hours (2×)</label>
+          <input type="number" id="dt-hours" placeholder="e.g. 0" min="0" step="0.5" value="0" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="ot-multiplier">Overtime Multiplier</label>
+        <select id="ot-multiplier">
+          <option value="1.5">1.5× — Time and a half (standard)</option>
+          <option value="2">2× — Double time</option>
+          <option value="1.25">1.25× — Some union agreements</option>
+        </select>
+      </div>
+      <button class="btn" onclick="calculate()">Calculate Overtime</button>
+    </div>
+    <div class="results" id="results">
+      <strong>Weekly Pay Breakdown</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item"><span class="result-value" id="regular-pay">—</span><span class="result-label">Regular Pay</span></div>
+        <div class="result-item result-highlight"><span class="result-value" id="ot-pay">—</span><span class="result-label">Overtime Pay</span></div>
+        <div class="result-item"><span class="result-value" id="dt-pay">—</span><span class="result-label">Double Time Pay</span></div>
+        <div class="result-item result-highlight"><span class="result-value" id="total-pay">—</span><span class="result-label">Total Weekly Pay</span></div>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #6ee7b7;">
+        <div class="results-grid">
+          <div class="result-item"><span class="result-value" id="ot-rate">—</span><span class="result-label">Overtime Rate/hr</span></div>
+          <div class="result-item"><span class="result-value" id="annual-est">—</span><span class="result-label">Annual Est. (52 wks)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</EmbedLayout>
+
+<script is:inline>
+function fmt(n, d = 2) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
+}
+function calculate() {
+  const rate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+  const regHours = parseFloat(document.getElementById('regular-hours').value) || 0;
+  const otHours = parseFloat(document.getElementById('ot-hours').value) || 0;
+  const dtHours = parseFloat(document.getElementById('dt-hours').value) || 0;
+  const otMult = parseFloat(document.getElementById('ot-multiplier').value) || 1.5;
+  if (rate <= 0) { alert('Please enter your hourly rate.'); return; }
+  const regularPay = rate * regHours;
+  const otRate = rate * otMult;
+  const otPay = otRate * otHours;
+  const dtPay = rate * 2 * dtHours;
+  const total = regularPay + otPay + dtPay;
+  document.getElementById('regular-pay').textContent = fmt(regularPay);
+  document.getElementById('ot-pay').textContent = fmt(otPay);
+  document.getElementById('dt-pay').textContent = fmt(dtPay);
+  document.getElementById('total-pay').textContent = fmt(total);
+  document.getElementById('ot-rate').textContent = fmt(otRate) + '/hr';
+  document.getElementById('annual-est').textContent = fmt(total * 52, 0);
+  document.getElementById('results').classList.add('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>

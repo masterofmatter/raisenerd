@@ -116,6 +116,13 @@ import Layout from '../layouts/Layout.astro';
       <p>Compensatory time off (comp time) in lieu of overtime pay is generally not allowed for private-sector employees under the FLSA — you must receive cash payment at 1.5×. Comp time is permitted for state and local government employees under specific conditions. Some employers offer voluntary comp time informally, but this doesn't satisfy your legal right to overtime pay.</p>
     </details>
   </div>
+
+  <div class="card">
+    <h2>Embed This Calculator</h2>
+    <p>Free to use on your website or blog. Paste one line of HTML — no account or backend needed.</p>
+    <pre id="embed-code" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:0.85rem 1rem;font-size:0.78rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;"></pre>
+    <button id="embed-copy-btn" onclick="copyEmbed()" class="btn" style="font-size:0.85rem;padding:0.5rem 1rem;">Copy Embed Code</button>
+  </div>
 </Layout>
 
 <script is:inline>
@@ -148,4 +155,15 @@ function calculate() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
 document.addEventListener('currencychange', () => { if (document.getElementById('results').classList.contains('show')) calculate(); });
+</script>
+
+<script is:inline>
+document.getElementById('embed-code').textContent = '<iframe src="https://raisenerd.com/embed/overtime-calculator/" width="100%" height="500" frameborder="0" style="border-radius:8px;border:1px solid #e5e0d8;" title="Overtime Calculator — RaiseNerd"></iframe>';
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').textContent).then(() => {
+    const btn = document.getElementById('embed-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Embed Code', 2000);
+  });
+}
 </script>

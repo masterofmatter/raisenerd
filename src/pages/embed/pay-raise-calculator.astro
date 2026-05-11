@@ -1,0 +1,109 @@
+---
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+---
+<EmbedLayout
+  title="Pay Raise Calculator — RaiseNerd"
+  fullUrl="https://raisenerd.com/pay-raise-calculator/"
+  fullLabel="Pay Raise Calculator"
+>
+  <div class="card">
+    <h2>Pay Raise Calculator</h2>
+    <div class="mode-tabs" style="margin-bottom:1rem;">
+      <button class="tab active" onclick="setMode('pct')" style="color:var(--green);border-bottom-color:var(--green);">I know my raise %</button>
+      <button class="tab" onclick="setMode('amount')">I know the dollar amount</button>
+    </div>
+
+    <div id="mode-pct" class="calc-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="current-salary">Current Annual Salary ($)</label>
+          <input type="number" id="current-salary" placeholder="e.g. 65000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="raise-pct">Raise Percentage (%)</label>
+          <input type="number" id="raise-pct" placeholder="e.g. 5" min="0" step="0.1" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcFromPct()">Calculate Raise</button>
+    </div>
+
+    <div id="mode-amount" class="calc-form" style="display:none;">
+      <div class="field-row">
+        <div class="field">
+          <label for="current-salary2">Current Annual Salary ($)</label>
+          <input type="number" id="current-salary2" placeholder="e.g. 65000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="new-salary">New Annual Salary ($)</label>
+          <input type="number" id="new-salary" placeholder="e.g. 70000" min="0" step="100" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcFromAmount()">Calculate Raise</button>
+    </div>
+
+    <div class="results" id="results">
+      <strong style="color:var(--indigo);">Your Raise</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item result-highlight">
+          <span class="result-value" id="raise-dollar">—</span>
+          <span class="result-label">Raise Amount / Year</span>
+        </div>
+        <div class="result-item result-highlight">
+          <span class="result-value" id="raise-pct-out">—</span>
+          <span class="result-label">Raise %</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #6ee7b7;">
+        <strong style="font-size:0.75rem;color:var(--indigo);text-transform:uppercase;letter-spacing:0.04em;">New Salary Breakdown</strong>
+        <div class="results-grid" style="margin-top:0.5rem;">
+          <div class="result-item"><span class="result-value" id="new-annual">—</span><span class="result-label">Annual</span></div>
+          <div class="result-item"><span class="result-value" id="new-monthly">—</span><span class="result-label">Monthly</span></div>
+          <div class="result-item"><span class="result-value" id="new-biweekly">—</span><span class="result-label">Biweekly</span></div>
+          <div class="result-item"><span class="result-value" id="new-hourly">—</span><span class="result-label">Hourly</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</EmbedLayout>
+
+<script is:inline>
+function setMode(mode) {
+  document.getElementById('mode-pct').style.display = mode === 'pct' ? 'flex' : 'none';
+  document.getElementById('mode-amount').style.display = mode === 'amount' ? 'flex' : 'none';
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const active = (mode === 'pct') === (i === 0);
+    t.classList.toggle('active', active);
+    t.style.color = active ? 'var(--green)' : '';
+    t.style.borderBottomColor = active ? 'var(--green)' : '';
+  });
+  document.getElementById('results').classList.remove('show');
+}
+function fmt(n, decimals = 0) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
+}
+function showResults(currentSalary, newSalary) {
+  const raise = newSalary - currentSalary;
+  const pct = (raise / currentSalary) * 100;
+  document.getElementById('raise-dollar').textContent = fmt(raise);
+  document.getElementById('raise-pct-out').textContent = pct.toFixed(1) + '%';
+  document.getElementById('new-annual').textContent = fmt(newSalary);
+  document.getElementById('new-monthly').textContent = fmt(newSalary / 12);
+  document.getElementById('new-biweekly').textContent = fmt(newSalary / 26);
+  document.getElementById('new-hourly').textContent = fmt(newSalary / 2080, 2);
+  document.getElementById('results').classList.add('show');
+}
+function calcFromPct() {
+  const current = parseFloat(document.getElementById('current-salary').value) || 0;
+  const pct = parseFloat(document.getElementById('raise-pct').value) || 0;
+  if (current <= 0) { alert('Please enter your current salary.'); return; }
+  showResults(current, current * (1 + pct / 100));
+}
+function calcFromAmount() {
+  const current = parseFloat(document.getElementById('current-salary2').value) || 0;
+  const newSal = parseFloat(document.getElementById('new-salary').value) || 0;
+  if (current <= 0 || newSal <= current) { alert('New salary must be greater than current salary.'); return; }
+  showResults(current, newSal);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') { document.getElementById('mode-pct').style.display !== 'none' ? calcFromPct() : calcFromAmount(); }});
+</script>

@@ -1,0 +1,102 @@
+---
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+---
+<EmbedLayout
+  title="Social Security Break-Even Calculator — RaiseNerd"
+  fullUrl="https://raisenerd.com/social-security-calculator/"
+  fullLabel="Social Security Break-Even Calculator"
+>
+  <div class="card">
+    <h2>Social Security Break-Even Calculator</h2>
+    <div class="calc-form">
+      <div class="field">
+        <label for="fra-benefit">Monthly Benefit at Full Retirement Age (67)</label>
+        <input type="number" id="fra-benefit" placeholder="e.g. 1800" min="100" step="10" />
+        <p class="field-hint">Find this at ssa.gov/myaccount</p>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="early-age">Claim Early At Age</label>
+          <select id="early-age">
+            <option value="62">62</option><option value="63">63</option><option value="64">64</option><option value="65">65</option><option value="66" selected>66</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="late-age">Compare To Age</label>
+          <select id="late-age">
+            <option value="67" selected>67 (FRA)</option><option value="68">68</option><option value="69">69</option><option value="70">70 (Maximum)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="current-age">Your Current Age</label>
+        <input type="number" id="current-age" placeholder="e.g. 55" min="40" max="66" step="1" />
+      </div>
+      <button class="btn" onclick="calculate()">Calculate Break-Even</button>
+    </div>
+    <div class="results" id="results">
+      <div id="result-summary"></div>
+      <div class="results-grid" style="margin-top:1rem;">
+        <div class="result-item"><span class="result-value" id="early-monthly">—</span><span class="result-label">Early Monthly Benefit</span></div>
+        <div class="result-item"><span class="result-value" id="late-monthly">—</span><span class="result-label">Later Monthly Benefit</span></div>
+        <div class="result-item result-highlight"><span class="result-value" id="breakeven-age">—</span><span class="result-label">Break-Even Age</span></div>
+        <div class="result-item"><span class="result-value" id="years-away">—</span><span class="result-label">Years Until Break-Even</span></div>
+      </div>
+      <div style="margin-top:1.25rem;">
+        <strong style="font-size:0.75rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.04em;">Cumulative Benefits Received</strong>
+        <table class="bench-table" style="margin-top:0.5rem;">
+          <thead><tr><th>At Age</th><th id="col-early">Early (age —)</th><th id="col-late">Later (age —)</th><th>Winner</th></tr></thead>
+          <tbody id="cumul-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</EmbedLayout>
+
+<script is:inline>
+function getReductionFactor(claimAge) {
+  const fra = 67;
+  if (claimAge < fra) {
+    const monthsEarly = (fra - claimAge) * 12;
+    const first36 = Math.min(monthsEarly, 36);
+    const extra = Math.max(monthsEarly - 36, 0);
+    return 1 - (first36 * 5/9 + extra * 5/12) / 100;
+  } else if (claimAge > fra) {
+    return 1 + ((claimAge - fra) * 8) / 100;
+  }
+  return 1.0;
+}
+function fmt(n) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+}
+function calculate() {
+  const fraB = parseFloat(document.getElementById('fra-benefit').value);
+  const earlyA = parseInt(document.getElementById('early-age').value);
+  const lateA = parseInt(document.getElementById('late-age').value);
+  const curAge = parseFloat(document.getElementById('current-age').value) || null;
+  if (!fraB || fraB <= 0) { alert('Please enter your monthly FRA benefit.'); return; }
+  if (earlyA >= lateA) { alert('Early age must be less than later age.'); return; }
+  const m1 = fraB * getReductionFactor(earlyA);
+  const m2 = fraB * getReductionFactor(lateA);
+  const headStart = (lateA - earlyA) * 12 * m1;
+  const breakEvenAge = lateA + headStart / (m2 - m1) / 12;
+  document.getElementById('early-monthly').textContent = fmt(m1);
+  document.getElementById('late-monthly').textContent = fmt(m2);
+  document.getElementById('breakeven-age').textContent = 'Age ' + breakEvenAge.toFixed(1);
+  document.getElementById('years-away').textContent = curAge !== null ? (breakEvenAge - curAge > 0 ? (breakEvenAge - curAge).toFixed(1) + ' yrs' : 'Already past') : '—';
+  document.getElementById('col-early').textContent = 'Claim at ' + earlyA;
+  document.getElementById('col-late').textContent = 'Claim at ' + lateA;
+  document.getElementById('result-summary').textContent = 'Break-even at age ' + breakEvenAge.toFixed(1) + ' — live past this age and waiting pays off.';
+  const tbody = document.getElementById('cumul-table');
+  tbody.innerHTML = '';
+  [70,75,80,85,90,95].forEach(age => {
+    const c1 = age >= earlyA ? Math.max(age - earlyA, 0) * 12 * m1 : 0;
+    const c2 = age >= lateA ? Math.max(age - lateA, 0) * 12 * m2 : 0;
+    const winner = c1 > c2 ? '<span class="winner-early">Early ↑</span>' : c2 > c1 ? '<span class="winner-late">Wait ↑</span>' : '<span class="winner-tie">Tied</span>';
+    tbody.innerHTML += `<tr><td>${age}</td><td>${fmt(c1)}</td><td>${fmt(c2)}</td><td>${winner}</td></tr>`;
+  });
+  document.getElementById('results').classList.add('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>

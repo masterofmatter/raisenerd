@@ -133,6 +133,13 @@ import Layout from '../layouts/Layout.astro';
       <p>Create a free account at ssa.gov/myaccount to see your personalized benefit estimate at ages 62, 67, and 70 based on your actual earnings history. The number shown for age 67 is your FRA benefit — use that as the input above.</p>
     </details>
   </div>
+
+  <div class="card">
+    <h2>Embed This Calculator</h2>
+    <p>Free to use on your website or blog. Paste one line of HTML — no account or backend needed.</p>
+    <pre id="embed-code" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:0.85rem 1rem;font-size:0.78rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;"></pre>
+    <button id="embed-copy-btn" onclick="copyEmbed()" class="btn" style="font-size:0.85rem;padding:0.5rem 1rem;">Copy Embed Code</button>
+  </div>
 </Layout>
 
 <style>
@@ -237,4 +244,15 @@ document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); 
 document.addEventListener('currencychange', () => {
   if (document.getElementById('results').classList.contains('show')) calculate();
 });
+</script>
+
+<script is:inline>
+document.getElementById('embed-code').textContent = '<iframe src="https://raisenerd.com/embed/social-security-calculator/" width="100%" height="560" frameborder="0" style="border-radius:8px;border:1px solid #e5e0d8;" title="Social Security Break-Even Calculator — RaiseNerd"></iframe>';
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').textContent).then(() => {
+    const btn = document.getElementById('embed-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Embed Code', 2000);
+  });
+}
 </script>

@@ -1,0 +1,71 @@
+---
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+---
+<EmbedLayout
+  title="Cost of Living Calculator — RaiseNerd"
+  fullUrl="https://raisenerd.com/cost-of-living-calculator/"
+  fullLabel="Cost of Living Calculator"
+>
+  <div class="card">
+    <h2>Cost of Living Calculator</h2>
+    <div class="calc-form">
+      <div class="field">
+        <label for="current-salary-col">Your Current Salary ($)</label>
+        <input type="number" id="current-salary-col" placeholder="e.g. 75000" min="0" step="1000" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="city-from">Current City</label>
+          <select id="city-from">
+            <option value="nyc">New York, NY</option><option value="sf">San Francisco, CA</option><option value="honolulu">Honolulu, HI</option><option value="boston">Boston, MA</option><option value="dc">Washington, DC</option><option value="la">Los Angeles, CA</option><option value="seattle">Seattle, WA</option><option value="miami">Miami, FL</option><option value="chicago">Chicago, IL</option><option value="denver">Denver, CO</option><option value="austin">Austin, TX</option><option value="portland">Portland, OR</option><option value="minneapolis">Minneapolis, MN</option><option value="atlanta">Atlanta, GA</option><option value="nashville">Nashville, TN</option><option value="phoenix">Phoenix, AZ</option><option value="dallas">Dallas, TX</option><option value="charlotte">Charlotte, NC</option><option value="houston">Houston, TX</option><option value="columbus">Columbus, OH</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="city-to">Target City</label>
+          <select id="city-to">
+            <option value="sf">San Francisco, CA</option><option value="nyc">New York, NY</option><option value="honolulu">Honolulu, HI</option><option value="boston">Boston, MA</option><option value="dc">Washington, DC</option><option value="la">Los Angeles, CA</option><option value="seattle">Seattle, WA</option><option value="miami">Miami, FL</option><option value="chicago">Chicago, IL</option><option value="denver">Denver, CO</option><option value="austin">Austin, TX</option><option value="portland">Portland, OR</option><option value="minneapolis">Minneapolis, MN</option><option value="atlanta">Atlanta, GA</option><option value="nashville">Nashville, TN</option><option value="phoenix">Phoenix, AZ</option><option value="dallas">Dallas, TX</option><option value="charlotte">Charlotte, NC</option><option value="houston">Houston, TX</option><option value="columbus">Columbus, OH</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="calculate()">Compare Cities</button>
+    </div>
+    <div class="results" id="results">
+      <strong>Cost of Living Comparison</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item result-highlight"><span class="result-value" id="equiv-salary">—</span><span class="result-label">Equivalent Salary Needed</span></div>
+        <div class="result-item"><span class="result-value" id="col-diff">—</span><span class="result-label">Cost of Living Difference</span></div>
+        <div class="result-item"><span class="result-value" id="salary-diff">—</span><span class="result-label">Salary Adjustment</span></div>
+      </div>
+      <p id="col-summary" style="margin-top:1rem;font-size:0.85rem;color:var(--muted);border-top:1px solid #fcd34d;padding-top:1rem;"></p>
+    </div>
+  </div>
+</EmbedLayout>
+
+<script is:inline>
+const COL_INDEX = {nyc:100,sf:97,honolulu:90,boston:86,dc:83,la:80,seattle:76,miami:66,chicago:64,denver:63,austin:62,portland:61,minneapolis:59,atlanta:57,nashville:56,phoenix:55,dallas:54,charlotte:52,houston:51,columbus:48};
+function fmt(n, d = 0) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(Math.abs(n));
+}
+function calculate() {
+  const salary = parseFloat(document.getElementById('current-salary-col').value) || 0;
+  const from = document.getElementById('city-from').value;
+  const to = document.getElementById('city-to').value;
+  if (salary <= 0) { alert('Please enter your current salary.'); return; }
+  if (from === to) { alert('Please select two different cities.'); return; }
+  const ratio = COL_INDEX[to] / COL_INDEX[from];
+  const equivSalary = salary * ratio;
+  const diff = equivSalary - salary;
+  const pctDiff = ((ratio - 1) * 100).toFixed(1);
+  document.getElementById('equiv-salary').textContent = fmt(equivSalary);
+  document.getElementById('col-diff').textContent = (ratio > 1 ? '+' : '') + pctDiff + '%';
+  document.getElementById('salary-diff').textContent = (diff >= 0 ? '+' : '-') + fmt(Math.abs(diff));
+  const fromName = document.getElementById('city-from').options[document.getElementById('city-from').selectedIndex].text;
+  const toName = document.getElementById('city-to').options[document.getElementById('city-to').selectedIndex].text;
+  const direction = ratio > 1 ? 'more expensive' : 'less expensive';
+  const action = diff > 0 ? `you would need a raise of ${fmt(Math.abs(diff))} to maintain the same standard of living` : `you could maintain the same lifestyle earning ${fmt(Math.abs(diff))} less per year`;
+  document.getElementById('col-summary').textContent = `${toName} is ${Math.abs(parseFloat(pctDiff))}% ${direction} than ${fromName}. On your current salary of ${fmt(salary)}, ${action}.`;
+  document.getElementById('results').classList.add('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>

@@ -123,6 +123,13 @@ import Layout from '../layouts/Layout.astro';
       <p>Ask in dollar terms — it's concrete and harder to argue with. "I'm looking for $72,000" is more powerful than "I'd like a 7% raise." Once agreed, verify the percentage is what you expected using this calculator.</p>
     </details>
   </div>
+
+  <div class="card">
+    <h2>Embed This Calculator</h2>
+    <p>Free to use on your website or blog. Paste one line of HTML — no account or backend needed.</p>
+    <pre id="embed-code" style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:0.85rem 1rem;font-size:0.78rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;"></pre>
+    <button id="embed-copy-btn" onclick="copyEmbed()" class="btn" style="font-size:0.85rem;padding:0.5rem 1rem;">Copy Embed Code</button>
+  </div>
 </Layout>
 
 <style>
@@ -181,4 +188,15 @@ document.addEventListener('currencychange', () => {
     document.getElementById('mode-pct').style.display !== 'none' ? calcFromPct() : calcFromAmount();
   }
 });
+</script>
+
+<script is:inline>
+document.getElementById('embed-code').textContent = '<iframe src="https://raisenerd.com/embed/pay-raise-calculator/" width="100%" height="480" frameborder="0" style="border-radius:8px;border:1px solid #e5e0d8;" title="Pay Raise Calculator — RaiseNerd"></iframe>';
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').textContent).then(() => {
+    const btn = document.getElementById('embed-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Embed Code', 2000);
+  });
+}
 </script>

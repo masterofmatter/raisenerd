@@ -1,0 +1,105 @@
+---
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+---
+<EmbedLayout
+  title="Salary to Hourly Calculator — RaiseNerd"
+  fullUrl="https://raisenerd.com/salary-to-hourly-calculator/"
+  fullLabel="Salary to Hourly Calculator"
+>
+  <div class="card">
+    <h2>Salary to Hourly Calculator</h2>
+    <div class="mode-tabs" style="margin-bottom:1rem;">
+      <button class="tab active" onclick="setMode('salary')" style="color:var(--amber-light);border-bottom-color:var(--amber-light);">Annual Salary → Hourly</button>
+      <button class="tab" onclick="setMode('hourly')">Hourly → Annual Salary</button>
+    </div>
+
+    <div id="mode-salary" class="calc-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="annual">Annual Salary ($)</label>
+          <input type="number" id="annual" placeholder="e.g. 65000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="hours-week">Hours per Week</label>
+          <input type="number" id="hours-week" placeholder="e.g. 40" min="1" max="80" step="0.5" value="40" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="weeks-year">Weeks Worked per Year</label>
+        <select id="weeks-year">
+          <option value="52">52 weeks (no unpaid time off)</option>
+          <option value="50">50 weeks (2 weeks unpaid)</option>
+          <option value="48">48 weeks (4 weeks unpaid)</option>
+        </select>
+      </div>
+      <button class="btn" onclick="calcFromSalary()">Convert to Hourly</button>
+    </div>
+
+    <div id="mode-hourly" class="calc-form" style="display:none;">
+      <div class="field-row">
+        <div class="field">
+          <label for="hourly-in">Hourly Rate ($)</label>
+          <input type="number" id="hourly-in" placeholder="e.g. 25.00" min="0" step="0.01" />
+        </div>
+        <div class="field">
+          <label for="hours-week2">Hours per Week</label>
+          <input type="number" id="hours-week2" placeholder="e.g. 40" min="1" max="80" step="0.5" value="40" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcFromHourly()">Convert to Salary</button>
+    </div>
+
+    <div class="results" id="results">
+      <strong>Pay Breakdown</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item result-highlight"><span class="result-value" id="res-hourly">—</span><span class="result-label">Hourly</span></div>
+        <div class="result-item"><span class="result-value" id="res-daily">—</span><span class="result-label">Daily (8 hrs)</span></div>
+        <div class="result-item"><span class="result-value" id="res-weekly">—</span><span class="result-label">Weekly</span></div>
+        <div class="result-item"><span class="result-value" id="res-biweekly">—</span><span class="result-label">Biweekly</span></div>
+        <div class="result-item"><span class="result-value" id="res-monthly">—</span><span class="result-label">Monthly</span></div>
+        <div class="result-item result-highlight"><span class="result-value" id="res-annual">—</span><span class="result-label">Annual</span></div>
+      </div>
+    </div>
+  </div>
+</EmbedLayout>
+
+<script is:inline>
+function setMode(mode) {
+  document.getElementById('mode-salary').style.display = mode === 'salary' ? 'flex' : 'none';
+  document.getElementById('mode-hourly').style.display = mode === 'hourly' ? 'flex' : 'none';
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const active = (mode === 'salary') === (i === 0);
+    t.classList.toggle('active', active);
+    t.style.color = active ? 'var(--amber-light)' : '';
+    t.style.borderBottomColor = active ? 'var(--amber-light)' : '';
+  });
+  document.getElementById('results').classList.remove('show');
+}
+function fmt(n, d = 2) {
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
+}
+function show(hourlyRate, hoursPerWeek) {
+  document.getElementById('res-hourly').textContent = fmt(hourlyRate);
+  document.getElementById('res-daily').textContent = fmt(hourlyRate * 8);
+  document.getElementById('res-weekly').textContent = fmt(hourlyRate * hoursPerWeek);
+  document.getElementById('res-biweekly').textContent = fmt(hourlyRate * hoursPerWeek * 2);
+  document.getElementById('res-monthly').textContent = fmt(hourlyRate * hoursPerWeek * 52 / 12);
+  document.getElementById('res-annual').textContent = fmt(hourlyRate * hoursPerWeek * 52, 0);
+  document.getElementById('results').classList.add('show');
+}
+function calcFromSalary() {
+  const annual = parseFloat(document.getElementById('annual').value) || 0;
+  const hrs = parseFloat(document.getElementById('hours-week').value) || 40;
+  const wks = parseFloat(document.getElementById('weeks-year').value) || 52;
+  if (annual <= 0) { alert('Please enter your annual salary.'); return; }
+  show(annual / (hrs * wks), hrs);
+}
+function calcFromHourly() {
+  const rate = parseFloat(document.getElementById('hourly-in').value) || 0;
+  const hrs = parseFloat(document.getElementById('hours-week2').value) || 40;
+  if (rate <= 0) { alert('Please enter your hourly rate.'); return; }
+  show(rate, hrs);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') { document.getElementById('mode-salary').style.display !== 'none' ? calcFromSalary() : calcFromHourly(); }});
+</script>
