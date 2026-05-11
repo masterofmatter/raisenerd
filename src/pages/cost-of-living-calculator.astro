@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Cost of Living Calculator Canada — Salary Comparison | RaiseNerd"
+  description="Find out what salary you need in a new Canadian city to maintain your standard of living. Compare cost of living between major Canadian cities. Free."
+>
+  <div class="card">
+    <h1>Cost of Living Calculator — Canada</h1>
+    <p>Moving to a new city? Find out what salary you need to maintain your current lifestyle. Based on cost of living indices for major Canadian cities.</p>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <h2>Compare Cities</h2>
+    <div class="calc-form">
+      <div class="field">
+        <label for="current-salary-col">Your Current Salary ($)</label>
+        <input type="number" id="current-salary-col" placeholder="e.g. 75000" min="0" step="1000" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="city-from">Current City</label>
+          <select id="city-from">
+            <option value="toronto">Toronto, ON</option>
+            <option value="vancouver">Vancouver, BC</option>
+            <option value="calgary">Calgary, AB</option>
+            <option value="edmonton">Edmonton, AB</option>
+            <option value="ottawa">Ottawa, ON</option>
+            <option value="montreal">Montreal, QC</option>
+            <option value="winnipeg">Winnipeg, MB</option>
+            <option value="halifax">Halifax, NS</option>
+            <option value="saskatoon">Saskatoon, SK</option>
+            <option value="victoria">Victoria, BC</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="city-to">Target City</label>
+          <select id="city-to">
+            <option value="vancouver">Vancouver, BC</option>
+            <option value="toronto">Toronto, ON</option>
+            <option value="calgary">Calgary, AB</option>
+            <option value="edmonton">Edmonton, AB</option>
+            <option value="ottawa">Ottawa, ON</option>
+            <option value="montreal">Montreal, QC</option>
+            <option value="winnipeg">Winnipeg, MB</option>
+            <option value="halifax">Halifax, NS</option>
+            <option value="saskatoon">Saskatoon, SK</option>
+            <option value="victoria">Victoria, BC</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="calculate()">Compare Cities</button>
+    </div>
+
+    <div class="results" id="results">
+      <strong style="color:var(--indigo);">Cost of Living Comparison</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item result-highlight">
+          <span class="result-value" id="equiv-salary">—</span>
+          <span class="result-label">Equivalent Salary Needed</span>
+        </div>
+        <div class="result-item">
+          <span class="result-value" id="col-diff">—</span>
+          <span class="result-label">Cost of Living Difference</span>
+        </div>
+        <div class="result-item">
+          <span class="result-value" id="salary-diff">—</span>
+          <span class="result-label">Salary Adjustment</span>
+        </div>
+      </div>
+      <p id="col-summary" style="margin-top:1rem;font-size:0.9rem;color:var(--muted);border-top:1px solid #6ee7b7;padding-top:1rem;"></p>
+    </div>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <h2>Cost of Living Index — Major Canadian Cities</h2>
+    <p>Toronto = 100 (base). Higher = more expensive. Indices are approximate composites of housing, food, transportation, and services.</p>
+    <table class="bench-table">
+      <thead><tr><th>City</th><th>COL Index</th><th>vs. Toronto</th></tr></thead>
+      <tbody>
+        <tr><td>Vancouver, BC</td><td>108</td><td>8% more expensive</td></tr>
+        <tr><td>Toronto, ON</td><td>100</td><td>Baseline</td></tr>
+        <tr><td>Victoria, BC</td><td>92</td><td>8% cheaper</td></tr>
+        <tr><td>Ottawa, ON</td><td>88</td><td>12% cheaper</td></tr>
+        <tr><td>Calgary, AB</td><td>87</td><td>13% cheaper</td></tr>
+        <tr><td>Edmonton, AB</td><td>80</td><td>20% cheaper</td></tr>
+        <tr><td>Montreal, QC</td><td>78</td><td>22% cheaper</td></tr>
+        <tr><td>Halifax, NS</td><td>74</td><td>26% cheaper</td></tr>
+        <tr><td>Saskatoon, SK</td><td>70</td><td>30% cheaper</td></tr>
+        <tr><td>Winnipeg, MB</td><td>69</td><td>31% cheaper</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted);">Source: Composite estimates based on Numbeo, Statistics Canada housing data, and CMHC rental reports. Indices updated 2025.</p>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is Vancouver or Toronto more expensive?</summary>
+      <p>Vancouver is slightly more expensive than Toronto overall, primarily due to higher housing costs in desirable areas. However, Toronto's commuter suburbs have seen significant price increases. Both cities are substantially more expensive than the Canadian average — plan for roughly 30–50% higher housing costs than mid-sized cities like Calgary or Ottawa.</p>
+    </details>
+    <details>
+      <summary>Should I take a lower salary to move to a cheaper city?</summary>
+      <p>Use this calculator to find your break-even point. If Calgary's cost of living is 87% of Toronto's, a $75,000 Toronto salary is equivalent to $65,250 in Calgary. If your employer is offering more than that, you're ahead. Don't forget to factor in provincial income tax — Alberta has no provincial sales tax and lower income tax rates, which significantly improves take-home pay.</p>
+    </details>
+    <details>
+      <summary>How accurate are these cost of living estimates?</summary>
+      <p>These indices are useful for ballpark comparisons but your actual cost difference depends heavily on your lifestyle — especially housing choices. Someone who rents downtown Toronto vs. owns a house in suburban Winnipeg will see very different numbers. For a precise comparison, research specific rental/housing costs, groceries, and transportation in your target neighbourhood.</p>
+    </details>
+  </div>
+</Layout>
+
+<script is:inline>
+const COL_INDEX = {
+  toronto: 100, vancouver: 108, calgary: 87, edmonton: 80,
+  ottawa: 88, montreal: 78, winnipeg: 69, halifax: 74,
+  saskatoon: 70, victoria: 92,
+};
+
+function fmt(n, d = 0) {
+  return '$' + Math.abs(n).toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+
+function calculate() {
+  const salary = parseFloat(document.getElementById('current-salary-col').value) || 0;
+  const from = document.getElementById('city-from').value;
+  const to = document.getElementById('city-to').value;
+
+  if (salary <= 0) { alert('Please enter your current salary.'); return; }
+  if (from === to) { alert('Please select two different cities.'); return; }
+
+  const ratio = COL_INDEX[to] / COL_INDEX[from];
+  const equivSalary = salary * ratio;
+  const diff = equivSalary - salary;
+  const pctDiff = ((ratio - 1) * 100).toFixed(1);
+
+  document.getElementById('equiv-salary').textContent = fmt(equivSalary);
+  document.getElementById('col-diff').textContent = (ratio > 1 ? '+' : '') + pctDiff + '%';
+  document.getElementById('salary-diff').textContent = (diff >= 0 ? '+' : '-') + fmt(diff);
+
+  const fromName = document.getElementById('city-from').options[document.getElementById('city-from').selectedIndex].text;
+  const toName = document.getElementById('city-to').options[document.getElementById('city-to').selectedIndex].text;
+  const direction = ratio > 1 ? 'more expensive' : 'less expensive';
+  const action = diff > 0 ? `you would need a raise of ${fmt(diff)} to maintain the same standard of living` : `you could maintain the same lifestyle earning ${fmt(Math.abs(diff))} less per year`;
+
+  document.getElementById('col-summary').textContent =
+    `${toName} is ${Math.abs(parseFloat(pctDiff))}% ${direction} than ${fromName}. On your current salary of ${fmt(salary)}, ${action}.`;
+
+  document.getElementById('results').classList.add('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>

@@ -1,0 +1,180 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Pay Raise Calculator — Free | RaiseNerd"
+  description="Calculate your pay raise amount and percentage instantly. Enter current and new salary or a raise percentage to see your new take-home. Free, no signup."
+>
+  <div class="card">
+    <h1>Pay Raise Calculator</h1>
+    <p>Enter your current salary and raise details to see your new annual, monthly, biweekly, and hourly pay — instantly.</p>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <div class="mode-tabs">
+      <button class="tab active" onclick="setMode('pct')">I know my raise %</button>
+      <button class="tab" onclick="setMode('amount')">I know the dollar amount</button>
+    </div>
+
+    <div id="mode-pct" class="calc-form" style="margin-top:1.25rem;">
+      <div class="field-row">
+        <div class="field">
+          <label for="current-salary">Current Annual Salary ($)</label>
+          <input type="number" id="current-salary" placeholder="e.g. 65000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="raise-pct">Raise Percentage (%)</label>
+          <input type="number" id="raise-pct" placeholder="e.g. 5" min="0" step="0.1" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcFromPct()">Calculate Raise</button>
+    </div>
+
+    <div id="mode-amount" class="calc-form" style="margin-top:1.25rem;display:none;">
+      <div class="field-row">
+        <div class="field">
+          <label for="current-salary2">Current Annual Salary ($)</label>
+          <input type="number" id="current-salary2" placeholder="e.g. 65000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="new-salary">New Annual Salary ($)</label>
+          <input type="number" id="new-salary" placeholder="e.g. 70000" min="0" step="100" />
+        </div>
+      </div>
+      <button class="btn" onclick="calcFromAmount()">Calculate Raise</button>
+    </div>
+
+    <div class="results" id="results">
+      <strong style="color:var(--indigo);">Your Raise</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item result-highlight">
+          <span class="result-value" id="raise-dollar">—</span>
+          <span class="result-label">Raise Amount / Year</span>
+        </div>
+        <div class="result-item result-highlight">
+          <span class="result-value" id="raise-pct-out">—</span>
+          <span class="result-label">Raise %</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #6ee7b7;">
+        <strong style="font-size:0.8rem;color:var(--indigo);text-transform:uppercase;letter-spacing:0.04em;">New Salary Breakdown</strong>
+        <div class="results-grid" style="margin-top:0.6rem;">
+          <div class="result-item">
+            <span class="result-value" id="new-annual">—</span>
+            <span class="result-label">Annual</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="new-monthly">—</span>
+            <span class="result-label">Monthly</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="new-biweekly">—</span>
+            <span class="result-label">Biweekly</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="new-hourly">—</span>
+            <span class="result-label">Hourly</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <h2>How to Calculate a Pay Raise</h2>
+    <p>There are two ways to think about a raise — as a percentage of your current salary, or as a flat dollar increase.</p>
+    <div class="formula-box" style="margin-top:0.75rem;">
+      <p><strong>New Salary</strong> = Current Salary × (1 + Raise % ÷ 100)</p>
+      <p><strong>Raise Amount</strong> = New Salary − Current Salary</p>
+      <p><strong>Raise %</strong> = (New Salary − Current Salary) ÷ Current Salary × 100</p>
+    </div>
+
+    <h2 style="margin-top:1.5rem;">Average Pay Raise by Year</h2>
+    <table class="bench-table">
+      <thead><tr><th>Type of Raise</th><th>Typical Range</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Cost of living (COLA)</td><td>2–4%</td><td>Keeps pace with inflation — not a real raise</td></tr>
+        <tr><td>Merit / performance</td><td>4–7%</td><td>Standard for meeting/exceeding expectations</td></tr>
+        <tr><td>Promotion</td><td>10–20%</td><td>Internal role change — negotiate hard here</td></tr>
+        <tr><td>Job change (external)</td><td>15–30%</td><td>Highest leverage — switching companies</td></tr>
+        <tr><td>Counter-offer</td><td>10–25%</td><td>When you have a competing offer in hand</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Is a 5% raise good?</summary>
+      <p>5% is above average for a standard annual review — most cost-of-living adjustments are 2–3%. However, if inflation is running at 4%, a 5% raise is only a 1% real increase in purchasing power. For a strong performance year, aim for 7–10%. For a promotion, expect 15–20%.</p>
+    </details>
+    <details>
+      <summary>How do I negotiate a higher raise?</summary>
+      <p>The most effective approach: get a competing offer. External offers give you real leverage because your employer knows what it costs to replace you (typically 50–200% of your annual salary in recruiting and training costs). If you can't get a competing offer, research market salaries on Glassdoor or LinkedIn and anchor your request 10–15% above your target.</p>
+    </details>
+    <details>
+      <summary>What's the difference between a raise and a cost of living adjustment?</summary>
+      <p>A cost of living adjustment (COLA) is designed to maintain your purchasing power as prices rise — it's not a true raise, just keeping up with inflation. A merit raise is above and beyond COLA. If your employer gives you a 3% raise in a year when inflation is 4%, your real salary went down.</p>
+    </details>
+    <details>
+      <summary>Should I ask for a raise as a percentage or dollar amount?</summary>
+      <p>Ask in dollar terms — it's concrete and harder to argue with. "I'm looking for $72,000" is more powerful than "I'd like a 7% raise." Once agreed, verify the percentage is what you expected using this calculator.</p>
+    </details>
+  </div>
+</Layout>
+
+<style>
+  .mode-tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid var(--border); }
+  .tab {
+    background: none;
+    border: none;
+    padding: 0.6rem 1rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    font-weight: 500;
+  }
+  .tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+</style>
+
+<script is:inline>
+function setMode(mode) {
+  document.getElementById('mode-pct').style.display = mode === 'pct' ? 'flex' : 'none';
+  document.getElementById('mode-amount').style.display = mode === 'amount' ? 'flex' : 'none';
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (mode === 'pct') === (i === 0)));
+  document.getElementById('results').classList.remove('show');
+}
+function fmt(n, decimals = 0) {
+  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+function showResults(currentSalary, newSalary) {
+  const raise = newSalary - currentSalary;
+  const pct = (raise / currentSalary) * 100;
+  document.getElementById('raise-dollar').textContent = fmt(raise);
+  document.getElementById('raise-pct-out').textContent = pct.toFixed(1) + '%';
+  document.getElementById('new-annual').textContent = fmt(newSalary);
+  document.getElementById('new-monthly').textContent = fmt(newSalary / 12);
+  document.getElementById('new-biweekly').textContent = fmt(newSalary / 26);
+  document.getElementById('new-hourly').textContent = fmt(newSalary / 2080, 2);
+  document.getElementById('results').classList.add('show');
+}
+function calcFromPct() {
+  const current = parseFloat(document.getElementById('current-salary').value) || 0;
+  const pct = parseFloat(document.getElementById('raise-pct').value) || 0;
+  if (current <= 0) { alert('Please enter your current salary.'); return; }
+  showResults(current, current * (1 + pct / 100));
+}
+function calcFromAmount() {
+  const current = parseFloat(document.getElementById('current-salary2').value) || 0;
+  const newSal = parseFloat(document.getElementById('new-salary').value) || 0;
+  if (current <= 0 || newSal <= current) { alert('New salary must be greater than current salary.'); return; }
+  showResults(current, newSal);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') { document.querySelector('.tab.active') && document.getElementById('mode-pct').style.display !== 'none' ? calcFromPct() : calcFromAmount(); }});
+</script>

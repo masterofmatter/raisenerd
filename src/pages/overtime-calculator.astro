@@ -1,0 +1,151 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Overtime Calculator — Free | RaiseNerd"
+  description="Calculate overtime pay for time-and-a-half, double time, and total weekly pay. Works for hourly and salaried workers. Free, instant results."
+>
+  <div class="card">
+    <h1>Overtime Calculator</h1>
+    <p>Enter your hourly rate and hours worked to calculate regular pay, overtime pay, and total weekly earnings.</p>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <h2>Calculate Your Overtime Pay</h2>
+    <div class="calc-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="hourly-rate">Hourly Rate ($)</label>
+          <input type="number" id="hourly-rate" placeholder="e.g. 25.00" min="0" step="0.01" />
+        </div>
+        <div class="field">
+          <label for="regular-hours">Regular Hours / Week</label>
+          <input type="number" id="regular-hours" placeholder="e.g. 40" min="0" step="0.5" value="40" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="ot-hours">Overtime Hours (1.5×)</label>
+          <input type="number" id="ot-hours" placeholder="e.g. 8" min="0" step="0.5" value="0" />
+        </div>
+        <div class="field">
+          <label for="dt-hours">Double Time Hours (2×)</label>
+          <input type="number" id="dt-hours" placeholder="e.g. 0" min="0" step="0.5" value="0" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="ot-multiplier">Overtime Multiplier</label>
+        <select id="ot-multiplier">
+          <option value="1.5">1.5× — Time and a half (standard)</option>
+          <option value="2">2× — Double time</option>
+          <option value="1.25">1.25× — Some union agreements</option>
+        </select>
+      </div>
+      <button class="btn" onclick="calculate()">Calculate Overtime</button>
+    </div>
+
+    <div class="results" id="results">
+      <strong style="color:var(--indigo);">Weekly Pay Breakdown</strong>
+      <div class="results-grid" style="margin-top:0.75rem;">
+        <div class="result-item">
+          <span class="result-value" id="regular-pay">—</span>
+          <span class="result-label">Regular Pay</span>
+        </div>
+        <div class="result-item result-highlight">
+          <span class="result-value" id="ot-pay">—</span>
+          <span class="result-label">Overtime Pay</span>
+        </div>
+        <div class="result-item">
+          <span class="result-value" id="dt-pay">—</span>
+          <span class="result-label">Double Time Pay</span>
+        </div>
+        <div class="result-item result-highlight">
+          <span class="result-value" id="total-pay">—</span>
+          <span class="result-label">Total Weekly Pay</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #6ee7b7;">
+        <div class="results-grid">
+          <div class="result-item">
+            <span class="result-value" id="ot-rate">—</span>
+            <span class="result-label">Overtime Rate/hr</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="annual-est">—</span>
+            <span class="result-label">Annual Est. (52 wks)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot ad-slot-banner">Ad</div>
+
+  <div class="card">
+    <h2>Overtime Pay Rules in Canada</h2>
+    <p>Overtime rules vary by province. Generally, overtime kicks in after 40–44 hours per week at 1.5× your regular rate.</p>
+    <table class="bench-table">
+      <thead><tr><th>Province</th><th>Overtime Threshold</th><th>OT Rate</th></tr></thead>
+      <tbody>
+        <tr><td>Ontario</td><td>After 44 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>British Columbia</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5× (2× after 12 hrs/day)</td></tr>
+        <tr><td>Alberta</td><td>After 8 hrs/day or 44 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>Quebec</td><td>After 40 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>Federal (Canada Labour Code)</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5×</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem;font-size:0.85rem;">Always verify with your provincial employment standards — rules change and some industries have exceptions.</p>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>How is overtime pay calculated?</summary>
+      <p>Overtime pay = regular hourly rate × overtime multiplier × overtime hours. Standard overtime in most Canadian provinces is 1.5× (time and a half). Example: $25/hr regular × 1.5 × 5 overtime hours = $187.50 in overtime pay for the week.</p>
+    </details>
+    <details>
+      <summary>Do salaried employees get overtime?</summary>
+      <p>It depends. Many salaried employees in managerial or supervisory roles are exempt from overtime under provincial employment standards. However, if your salary doesn't effectively compensate for all hours worked, you may have a claim. Check your province's employment standards or consult an employment lawyer.</p>
+    </details>
+    <details>
+      <summary>Can my employer refuse to pay overtime?</summary>
+      <p>In Canada, employers cannot contract out of overtime pay requirements under provincial employment standards legislation. If your employer asks you to work overtime but refuses to pay at the required rate, you can file a complaint with your province's employment standards office.</p>
+    </details>
+    <details>
+      <summary>What is banked overtime?</summary>
+      <p>Some provinces allow employers to bank overtime hours as paid time off instead of paying the premium rate. In Ontario, for example, you must agree in writing, and banked time is at the same hours (not 1.5× hours). Check if your province allows this arrangement.</p>
+    </details>
+  </div>
+</Layout>
+
+<script is:inline>
+function fmt(n, d = 2) {
+  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+function calculate() {
+  const rate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+  const regHours = parseFloat(document.getElementById('regular-hours').value) || 0;
+  const otHours = parseFloat(document.getElementById('ot-hours').value) || 0;
+  const dtHours = parseFloat(document.getElementById('dt-hours').value) || 0;
+  const otMult = parseFloat(document.getElementById('ot-multiplier').value) || 1.5;
+
+  if (rate <= 0) { alert('Please enter your hourly rate.'); return; }
+
+  const regularPay = rate * regHours;
+  const otRate = rate * otMult;
+  const otPay = otRate * otHours;
+  const dtPay = rate * 2 * dtHours;
+  const total = regularPay + otPay + dtPay;
+
+  document.getElementById('regular-pay').textContent = fmt(regularPay);
+  document.getElementById('ot-pay').textContent = fmt(otPay);
+  document.getElementById('dt-pay').textContent = fmt(dtPay);
+  document.getElementById('total-pay').textContent = fmt(total);
+  document.getElementById('ot-rate').textContent = fmt(otRate) + '/hr';
+  document.getElementById('annual-est').textContent = fmt(total * 52, 0);
+  document.getElementById('results').classList.add('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+</script>
