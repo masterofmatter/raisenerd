@@ -104,14 +104,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 2rem;
-      align-items: start;
-    }
-    @media (max-width: 768px) {
-      .page-wrap { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      max-width: 780px;
     }
     main { min-width: 0; }
 
@@ -313,19 +306,6 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <main>
       <slot />
     </main>
-    <aside class="sidebar">
-      <div class="card" style="padding:1rem;">
-        <p style="font-size:0.8rem;font-weight:700;color:var(--indigo);margin-bottom:0.6rem;">ALL CALCULATORS</p>
-        <ul class="sidebar-links">
-          <li><a href="/pay-raise-calculator/">Pay Raise Calculator</a></li>
-          <li><a href="/overtime-calculator/">Overtime Calculator</a></li>
-          <li><a href="/salary-to-hourly-calculator/">Salary to Hourly</a></li>
-          <li><a href="/paycheck-calculator/">Paycheck Calculator</a></li>
-          <li><a href="/cost-of-living-calculator/">Cost of Living</a></li>
-          <li><a href="/social-security-calculator/">Social Security Calculator</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
 
   <script is:inline>
