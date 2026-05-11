@@ -55,7 +55,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <div class="results" id="results">
-      <strong style="color:var(--indigo);">Pay Breakdown</strong>
+      <strong style="color:var(--text);">Pay Breakdown</strong>
       <div class="results-grid" style="margin-top:0.75rem;">
         <div class="result-item result-highlight">
           <span class="result-value" id="res-hourly">—</span>
@@ -117,12 +117,12 @@ import Layout from '../layouts/Layout.astro';
       <p>The standard is 2,080 hours (40 hours/week × 52 weeks). If you account for 10 vacation days and 10 stat holidays, it drops to about 1,880 paid hours. For a more accurate picture of your effective hourly rate, use the weeks worked input above.</p>
     </details>
     <details>
-      <summary>Is a $25/hour job a good salary in Canada?</summary>
-      <p>At $25/hour working 40 hours/week, you earn $52,000/year — around the median individual income in Canada. In lower cost-of-living cities this is comfortable; in Toronto or Vancouver, it covers basics but leaves little room for saving. Use our <a href="/cost-of-living-calculator/">Cost of Living Calculator</a> to compare cities.</p>
+      <summary>Is $25/hour a good wage in the US?</summary>
+      <p>At $25/hour working 40 hours/week, you earn $52,000/year — slightly above the US median individual income of around $48,000 (BLS 2024). In lower cost-of-living cities like Columbus or Houston this is comfortable; in New York or San Francisco it covers basics but leaves little room for saving. Use our <a href="/cost-of-living-calculator/">Cost of Living Calculator</a> to compare cities.</p>
     </details>
     <details>
       <summary>How do I convert a daily rate to annual salary?</summary>
-      <p>Daily rate × working days per year. Assuming 260 working days (52 weeks × 5 days): a $300/day contract = $78,000/year equivalent. However, contractors typically don't receive benefits, paid vacation, or employer CPP/EI contributions — so the true comparison to an employee salary is lower.</p>
+      <p>Daily rate × working days per year. Assuming 260 working days (52 weeks × 5 days): a $300/day contract = $78,000/year equivalent. However, contractors typically don't receive employer benefits, paid vacation, or employer-side payroll taxes — so the true comparison to a salaried employee offer should account for those costs, often adding 20–30% to the value of the employee package.</p>
     </details>
   </div>
 </Layout>
@@ -130,7 +130,7 @@ import Layout from '../layouts/Layout.astro';
 <style>
   .mode-tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid var(--border); }
   .tab { background: none; border: none; padding: 0.6rem 1rem; font-size: 0.88rem; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: 500; }
-  .tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+  .tab.active { color: var(--amber-light); border-bottom-color: var(--amber-light); font-weight: 600; }
 </style>
 
 <script is:inline>

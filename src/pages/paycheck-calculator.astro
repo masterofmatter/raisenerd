@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
-  title="Paycheck Calculator Canada — Free Take-Home Pay | RaiseNerd"
-  description="Estimate your Canadian take-home pay after federal and provincial income tax, CPP, and EI deductions. Free paycheck calculator for 2024–2025."
+  title="Paycheck Calculator — Free US Take-Home Pay 2025 | RaiseNerd"
+  description="Estimate your US take-home pay after federal income tax, Social Security (6.2%), Medicare (1.45%), and state income tax. Free paycheck calculator for all 50 states."
 >
   <div class="card">
-    <h1>Paycheck Calculator — Canada</h1>
-    <p>Estimate your take-home pay after federal income tax, provincial tax, CPP contributions, and EI premiums. Results are estimates — actual deductions depend on your tax situation.</p>
+    <h1>Paycheck Calculator</h1>
+    <p>Estimate your take-home pay after federal income tax, FICA (Social Security & Medicare), and state income tax. Results are estimates — consult a payroll professional for exact figures.</p>
   </div>
 
   <div class="ad-slot ad-slot-banner">Ad</div>
@@ -21,54 +21,104 @@ import Layout from '../layouts/Layout.astro';
           <input type="number" id="gross-income" placeholder="e.g. 65000" min="0" step="100" />
         </div>
         <div class="field">
-          <label for="province">Province</label>
-          <select id="province">
-            <option value="ON">Ontario</option>
-            <option value="BC">British Columbia</option>
-            <option value="AB">Alberta</option>
-            <option value="QC">Quebec</option>
-            <option value="MB">Manitoba</option>
-            <option value="SK">Saskatchewan</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NB">New Brunswick</option>
-            <option value="PE">PEI</option>
-            <option value="NL">Newfoundland</option>
+          <label for="filing-status">Filing Status</label>
+          <select id="filing-status">
+            <option value="single">Single</option>
+            <option value="mfj">Married Filing Jointly</option>
           </select>
         </div>
       </div>
-      <div class="field">
-        <label for="pay-freq">Pay Frequency</label>
-        <select id="pay-freq">
-          <option value="26">Biweekly (26 paychecks/year)</option>
-          <option value="24">Semi-monthly (24 paychecks/year)</option>
-          <option value="12">Monthly (12 paychecks/year)</option>
-          <option value="52">Weekly (52 paychecks/year)</option>
-        </select>
+      <div class="field-row">
+        <div class="field">
+          <label for="state">State</label>
+          <select id="state">
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska (no income tax)</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida (no income tax)</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada (no income tax)</option>
+            <option value="NH">New Hampshire (no income tax)</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota (no income tax)</option>
+            <option value="TN">Tennessee (no income tax)</option>
+            <option value="TX" selected>Texas (no income tax)</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington (no income tax)</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming (no income tax)</option>
+            <option value="DC">Washington, DC</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pay-freq">Pay Frequency</label>
+          <select id="pay-freq">
+            <option value="26">Biweekly (26 paychecks/year)</option>
+            <option value="24">Semi-monthly (24 paychecks/year)</option>
+            <option value="12">Monthly (12 paychecks/year)</option>
+            <option value="52">Weekly (52 paychecks/year)</option>
+          </select>
+        </div>
       </div>
       <button class="btn" onclick="calculate()">Calculate Take-Home Pay</button>
     </div>
 
     <div class="results" id="results">
-      <strong style="color:var(--indigo);">Estimated Deductions (Annual)</strong>
+      <strong style="color:var(--text);">Estimated Deductions (Annual)</strong>
       <div class="results-grid" style="margin-top:0.75rem;">
         <div class="result-item">
           <span class="result-value" id="fed-tax">—</span>
-          <span class="result-label">Federal Tax</span>
+          <span class="result-label">Federal Income Tax</span>
         </div>
         <div class="result-item">
-          <span class="result-value" id="prov-tax">—</span>
-          <span class="result-label">Provincial Tax</span>
+          <span class="result-value" id="state-tax">—</span>
+          <span class="result-label">State Income Tax</span>
         </div>
         <div class="result-item">
-          <span class="result-value" id="cpp">—</span>
-          <span class="result-label">CPP</span>
+          <span class="result-value" id="ss">—</span>
+          <span class="result-label">Social Security</span>
         </div>
         <div class="result-item">
-          <span class="result-value" id="ei">—</span>
-          <span class="result-label">EI Premium</span>
+          <span class="result-value" id="medicare">—</span>
+          <span class="result-label">Medicare</span>
         </div>
       </div>
-      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #6ee7b7;">
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #fcd34d;">
         <div class="results-grid">
           <div class="result-item result-highlight">
             <span class="result-value" id="net-annual">—</span>
@@ -84,7 +134,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div class="result-item">
             <span class="result-value" id="marginal-rate">—</span>
-            <span class="result-label">Marginal Rate</span>
+            <span class="result-label">Federal Marginal Rate</span>
           </div>
         </div>
       </div>
@@ -94,115 +144,136 @@ import Layout from '../layouts/Layout.astro';
   <div class="ad-slot ad-slot-banner">Ad</div>
 
   <div class="card">
-    <h2>2025 Canada Federal Tax Brackets</h2>
+    <h2>2025 US Federal Tax Brackets</h2>
     <table class="bench-table">
-      <thead><tr><th>Income</th><th>Federal Rate</th></tr></thead>
+      <thead><tr><th>Single — Taxable Income</th><th>Rate</th><th>Married Filing Jointly</th><th>Rate</th></tr></thead>
       <tbody>
-        <tr><td>Up to $57,375</td><td>15%</td></tr>
-        <tr><td>$57,375 – $114,750</td><td>20.5%</td></tr>
-        <tr><td>$114,750 – $158,519</td><td>26%</td></tr>
-        <tr><td>$158,519 – $220,000</td><td>29%</td></tr>
-        <tr><td>Over $220,000</td><td>33%</td></tr>
+        <tr><td>Up to $11,925</td><td>10%</td><td>Up to $23,850</td><td>10%</td></tr>
+        <tr><td>$11,925 – $48,475</td><td>12%</td><td>$23,850 – $96,950</td><td>12%</td></tr>
+        <tr><td>$48,475 – $103,350</td><td>22%</td><td>$96,950 – $206,700</td><td>22%</td></tr>
+        <tr><td>$103,350 – $197,300</td><td>24%</td><td>$206,700 – $394,600</td><td>24%</td></tr>
+        <tr><td>$197,300 – $250,525</td><td>32%</td><td>$394,600 – $501,050</td><td>32%</td></tr>
+        <tr><td>$250,525 – $626,350</td><td>35%</td><td>$501,050 – $751,600</td><td>35%</td></tr>
+        <tr><td>Over $626,350</td><td>37%</td><td>Over $751,600</td><td>37%</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:0.75rem;font-size:0.85rem;">Basic personal amount for 2025: $16,129 (federal). Provincial rates apply on top — see your province's tax authority for current brackets.</p>
+    <p style="margin-top:0.75rem;font-size:0.85rem;">Standard deduction 2025: $14,600 (Single) · $29,200 (Married Filing Jointly). Social Security: 6.2% on first $176,100. Medicare: 1.45% on all wages.</p>
   </div>
 
   <div class="card">
     <h2>Frequently Asked Questions</h2>
     <details>
+      <summary>What is FICA tax?</summary>
+      <p>FICA stands for the Federal Insurance Contributions Act. It covers two payroll taxes: Social Security (6.2% on wages up to $176,100 in 2025) and Medicare (1.45% on all wages, no cap). Your employer matches both contributions dollar-for-dollar. High earners also pay an additional 0.9% Medicare surcharge on wages over $200,000 ($250,000 for Married Filing Jointly).</p>
+    </details>
+    <details>
+      <summary>Which states have no income tax?</summary>
+      <p>Nine states have no wage income tax: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. New Hampshire taxes some investment income but not wages. Washington has no income tax but does have a capital gains tax on large investment gains. Living in a no-income-tax state can add thousands to your annual take-home pay.</p>
+    </details>
+    <details>
       <summary>What is the difference between marginal and effective tax rate?</summary>
-      <p>Your marginal rate is the rate on your last dollar earned — the highest bracket you're in. Your effective rate is your total tax ÷ total income. If you earn $80,000, your marginal federal rate is 20.5%, but your effective federal rate is much lower because the first $57,375 is taxed at 15% and the first $16,129 is tax-free.</p>
-    </details>
-    <details>
-      <summary>How much CPP do I pay in 2025?</summary>
-      <p>For 2025, CPP contributions are 5.95% on earnings between $3,500 (exemption) and $71,300 (maximum pensionable earnings), capped at $4,034.10/year. CPP2 applies an additional 4% on earnings between $71,300 and $81,900. Your employer matches your CPP contribution dollar-for-dollar.</p>
-    </details>
-    <details>
-      <summary>What is EI and how much do I pay?</summary>
-      <p>Employment Insurance (EI) premiums in 2025 are 1.64% of insurable earnings up to a maximum of $65,700/year, capped at $1,077.48. Quebec residents pay a lower rate (1.31%) because Quebec has its own parental insurance plan (QPIP).</p>
+      <p>Your marginal rate is the rate on your last dollar earned — the highest federal bracket you've entered. Your effective rate is total taxes ÷ gross income. If you earn $80,000 (single), your marginal federal rate is 22%, but your effective federal rate is around 13% because the first $14,600 is tax-free and lower dollars are taxed at 10% and 12%.</p>
     </details>
     <details>
       <summary>Why is my actual paycheck different from this estimate?</summary>
-      <p>This calculator uses simplified tax brackets and doesn't account for: RRSP contributions, pension deductions, union dues, additional tax credits (disability, tuition, childcare), commission income, multiple income sources, or Quebec-specific deductions. Use this for a ballpark estimate — your employer's payroll system has the full picture.</p>
+      <p>This calculator uses simplified brackets and doesn't account for: 401(k) or HSA pre-tax contributions, your W-4 additional withholding elections, employer-sponsored benefit deductions (health insurance, FSA), local or city income taxes, or year-to-date adjustments near the Social Security wage base. Use this for a ballpark estimate — your employer's payroll system applies your specific W-4 and benefit elections.</p>
     </details>
   </div>
 </Layout>
 
 <script is:inline>
-// 2025 federal brackets (simplified, BPA applied as credit)
-const FED_BRACKETS = [
-  { min: 0, max: 57375, rate: 0.15 },
-  { min: 57375, max: 114750, rate: 0.205 },
-  { min: 114750, max: 158519, rate: 0.26 },
-  { min: 158519, max: 220000, rate: 0.29 },
-  { min: 220000, max: Infinity, rate: 0.33 },
-];
-const FED_BPA = 16129;
-
-// Simplified provincial rates (top combined marginal for reference)
-const PROV_RATES = {
-  ON: { brackets: [{min:0,max:51446,rate:0.0505},{min:51446,max:102894,rate:0.0915},{min:102894,max:150000,rate:0.1116},{min:150000,max:220000,rate:0.1216},{min:220000,max:Infinity,rate:0.1316}], bpa: 11865 },
-  BC: { brackets: [{min:0,max:45654,rate:0.0506},{min:45654,max:91310,rate:0.077},{min:91310,max:104835,rate:0.105},{min:104835,max:127299,rate:0.1229},{min:127299,max:172602,rate:0.147},{min:172602,max:240716,rate:0.168},{min:240716,max:Infinity,rate:0.205}], bpa: 11981 },
-  AB: { brackets: [{min:0,max:148269,rate:0.10},{min:148269,max:177922,rate:0.12},{min:177922,max:237230,rate:0.13},{min:237230,max:355845,rate:0.14},{min:355845,max:Infinity,rate:0.15}], bpa: 21003 },
-  QC: { brackets: [{min:0,max:51780,rate:0.14},{min:51780,max:103545,rate:0.19},{min:103545,max:126000,rate:0.24},{min:126000,max:Infinity,rate:0.2575}], bpa: 17183 },
-  MB: { brackets: [{min:0,max:36842,rate:0.108},{min:36842,max:79625,rate:0.1275},{min:79625,max:Infinity,rate:0.174}], bpa: 15780 },
-  SK: { brackets: [{min:0,max:49720,rate:0.105},{min:49720,max:142058,rate:0.125},{min:142058,max:Infinity,rate:0.145}], bpa: 17661 },
-  NS: { brackets: [{min:0,max:29590,rate:0.0879},{min:29590,max:59180,rate:0.1495},{min:59180,max:93000,rate:0.1667},{min:93000,max:150000,rate:0.175},{min:150000,max:Infinity,rate:0.21}], bpa: 8481 },
-  NB: { brackets: [{min:0,max:47715,rate:0.094},{min:47715,max:95431,rate:0.14},{min:95431,max:176756,rate:0.16},{min:176756,max:Infinity,rate:0.195}], bpa: 12458 },
-  PE: { brackets: [{min:0,max:32656,rate:0.096},{min:32656,max:64313,rate:0.137},{min:64313,max:105000,rate:0.167},{min:105000,max:140000,rate:0.18},{min:140000,max:Infinity,rate:0.187}], bpa: 12000 },
-  NL: { brackets: [{min:0,max:43198,rate:0.087},{min:43198,max:86395,rate:0.145},{min:86395,max:154244,rate:0.158},{min:154244,max:215943,rate:0.178},{min:215943,max:275870,rate:0.198},{min:275870,max:551739,rate:0.208},{min:551739,max:Infinity,rate:0.218}], bpa: 10013 },
+const FED = {
+  single: {
+    brackets: [
+      { min: 0,       max: 11925,   rate: 0.10 },
+      { min: 11925,   max: 48475,   rate: 0.12 },
+      { min: 48475,   max: 103350,  rate: 0.22 },
+      { min: 103350,  max: 197300,  rate: 0.24 },
+      { min: 197300,  max: 250525,  rate: 0.32 },
+      { min: 250525,  max: 626350,  rate: 0.35 },
+      { min: 626350,  max: Infinity, rate: 0.37 },
+    ],
+    stdDeduction: 14600,
+    medicareSurchargeThreshold: 200000,
+  },
+  mfj: {
+    brackets: [
+      { min: 0,       max: 23850,   rate: 0.10 },
+      { min: 23850,   max: 96950,   rate: 0.12 },
+      { min: 96950,   max: 206700,  rate: 0.22 },
+      { min: 206700,  max: 394600,  rate: 0.24 },
+      { min: 394600,  max: 501050,  rate: 0.32 },
+      { min: 501050,  max: 751600,  rate: 0.35 },
+      { min: 751600,  max: Infinity, rate: 0.37 },
+    ],
+    stdDeduction: 29200,
+    medicareSurchargeThreshold: 250000,
+  },
 };
 
-function calcBracketTax(income, brackets, bpa) {
-  const taxableIncome = Math.max(0, income - bpa);
+const SS_WAGE_BASE = 176100;
+
+const STATE_RATES = {
+  AL:0.050, AK:0,     AZ:0.025, AR:0.044, CA:0.093, CO:0.044, CT:0.065,
+  DE:0.066, FL:0,     GA:0.055, HI:0.082, ID:0.058, IL:0.050, IN:0.031,
+  IA:0.057, KS:0.057, KY:0.040, LA:0.043, ME:0.072, MD:0.058, MA:0.050,
+  MI:0.043, MN:0.099, MS:0.047, MO:0.054, MT:0.068, NE:0.066, NV:0,
+  NH:0,     NJ:0.075, NM:0.059, NY:0.109, NC:0.048, ND:0.025, OH:0.040,
+  OK:0.048, OR:0.099, PA:0.031, RI:0.060, SC:0.065, SD:0,     TN:0,
+  TX:0,     UT:0.047, VT:0.088, VA:0.058, WA:0,     WV:0.065, WI:0.077,
+  WY:0,     DC:0.090,
+};
+
+function calcBracketTax(taxable, brackets) {
   let tax = 0;
   for (const b of brackets) {
-    if (taxableIncome <= b.min) break;
-    tax += (Math.min(taxableIncome, b.max) - b.min) * b.rate;
+    if (taxable <= b.min) break;
+    tax += (Math.min(taxable, b.max) - b.min) * b.rate;
   }
   return Math.max(0, tax);
 }
 
-function getMarginalRate(income, fedBrackets, provBrackets) {
-  let fedMarginal = fedBrackets[0].rate;
-  for (const b of fedBrackets) { if (income > b.min) fedMarginal = b.rate; }
-  let provMarginal = provBrackets[0].rate;
-  for (const b of provBrackets) { if (income > b.min) provMarginal = b.rate; }
-  return fedMarginal + provMarginal;
+function getMarginalRate(taxable, brackets) {
+  let rate = brackets[0].rate;
+  for (const b of brackets) { if (taxable > b.min) rate = b.rate; }
+  return rate;
 }
 
 function fmt(n, d = 0) {
-  return '$' + n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
 }
 
 function calculate() {
   const gross = parseFloat(document.getElementById('gross-income').value) || 0;
-  const prov = document.getElementById('province').value;
+  const status = document.getElementById('filing-status').value;
+  const state = document.getElementById('state').value;
   const freq = parseInt(document.getElementById('pay-freq').value) || 26;
   if (gross <= 0) { alert('Please enter your gross income.'); return; }
 
-  const CPP_RATE = 0.0595, CPP_EXEMPT = 3500, CPP_MAX = 71300;
-  const EI_RATE = prov === 'QC' ? 0.0131 : 0.0164, EI_MAX = 65700;
+  const fedData = FED[status];
+  const fedTaxable = Math.max(0, gross - fedData.stdDeduction);
+  const fedTax = calcBracketTax(fedTaxable, fedData.brackets);
+  const marginalRate = getMarginalRate(fedTaxable, fedData.brackets);
 
-  const cpp = Math.min((Math.min(gross, CPP_MAX) - CPP_EXEMPT) * CPP_RATE, 4034.10);
-  const ei = Math.min(gross * EI_RATE, EI_MAX * EI_RATE);
-  const fedTax = calcBracketTax(gross, FED_BRACKETS, FED_BPA);
-  const provData = PROV_RATES[prov];
-  const provTax = calcBracketTax(gross, provData.brackets, provData.bpa);
-  const totalDeductions = fedTax + provTax + cpp + ei;
+  const ss = Math.min(gross, SS_WAGE_BASE) * 0.062;
+  const medicare = gross * 0.0145 + Math.max(0, gross - fedData.medicareSurchargeThreshold) * 0.009;
+
+  const stateRate = STATE_RATES[state] || 0;
+  const stateTax = Math.max(0, gross - fedData.stdDeduction) * stateRate;
+
+  const totalDeductions = fedTax + stateTax + ss + medicare;
   const netAnnual = gross - totalDeductions;
   const effectiveRate = (totalDeductions / gross) * 100;
-  const marginalRate = getMarginalRate(gross, FED_BRACKETS, provData.brackets) * 100;
 
   document.getElementById('fed-tax').textContent = fmt(fedTax);
-  document.getElementById('prov-tax').textContent = fmt(provTax);
-  document.getElementById('cpp').textContent = fmt(cpp);
-  document.getElementById('ei').textContent = fmt(ei);
+  document.getElementById('state-tax').textContent = fmt(stateTax);
+  document.getElementById('ss').textContent = fmt(ss);
+  document.getElementById('medicare').textContent = fmt(medicare);
   document.getElementById('net-annual').textContent = fmt(netAnnual);
   document.getElementById('net-paycheck').textContent = fmt(netAnnual / freq);
   document.getElementById('effective-rate').textContent = effectiveRate.toFixed(1) + '%';
-  document.getElementById('marginal-rate').textContent = marginalRate.toFixed(1) + '%';
+  document.getElementById('marginal-rate').textContent = (marginalRate * 100).toFixed(0) + '%';
   document.getElementById('results').classList.add('show');
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });

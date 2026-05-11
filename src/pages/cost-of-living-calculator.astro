@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
-  title="Cost of Living Calculator Canada — Salary Comparison | RaiseNerd"
-  description="Find out what salary you need in a new Canadian city to maintain your standard of living. Compare cost of living between major Canadian cities. Free."
+  title="Cost of Living Calculator — US City Comparison | RaiseNerd"
+  description="Find out what salary you need in a new US city to maintain your current standard of living. Compare cost of living between 20 major American cities. Free."
 >
   <div class="card">
-    <h1>Cost of Living Calculator — Canada</h1>
-    <p>Moving to a new city? Find out what salary you need to maintain your current lifestyle. Based on cost of living indices for major Canadian cities.</p>
+    <h1>Cost of Living Calculator</h1>
+    <p>Moving to a new city? Find out what salary you need to maintain your current lifestyle. Compare cost of living across major US cities based on housing, food, transportation, and services.</p>
   </div>
 
   <div class="ad-slot ad-slot-banner">Ad</div>
@@ -23,31 +23,51 @@ import Layout from '../layouts/Layout.astro';
         <div class="field">
           <label for="city-from">Current City</label>
           <select id="city-from">
-            <option value="toronto">Toronto, ON</option>
-            <option value="vancouver">Vancouver, BC</option>
-            <option value="calgary">Calgary, AB</option>
-            <option value="edmonton">Edmonton, AB</option>
-            <option value="ottawa">Ottawa, ON</option>
-            <option value="montreal">Montreal, QC</option>
-            <option value="winnipeg">Winnipeg, MB</option>
-            <option value="halifax">Halifax, NS</option>
-            <option value="saskatoon">Saskatoon, SK</option>
-            <option value="victoria">Victoria, BC</option>
+            <option value="nyc">New York, NY</option>
+            <option value="sf">San Francisco, CA</option>
+            <option value="honolulu">Honolulu, HI</option>
+            <option value="boston">Boston, MA</option>
+            <option value="dc">Washington, DC</option>
+            <option value="la">Los Angeles, CA</option>
+            <option value="seattle">Seattle, WA</option>
+            <option value="miami">Miami, FL</option>
+            <option value="chicago">Chicago, IL</option>
+            <option value="denver">Denver, CO</option>
+            <option value="austin">Austin, TX</option>
+            <option value="portland">Portland, OR</option>
+            <option value="minneapolis">Minneapolis, MN</option>
+            <option value="atlanta">Atlanta, GA</option>
+            <option value="nashville">Nashville, TN</option>
+            <option value="phoenix">Phoenix, AZ</option>
+            <option value="dallas">Dallas, TX</option>
+            <option value="charlotte">Charlotte, NC</option>
+            <option value="houston">Houston, TX</option>
+            <option value="columbus">Columbus, OH</option>
           </select>
         </div>
         <div class="field">
           <label for="city-to">Target City</label>
           <select id="city-to">
-            <option value="vancouver">Vancouver, BC</option>
-            <option value="toronto">Toronto, ON</option>
-            <option value="calgary">Calgary, AB</option>
-            <option value="edmonton">Edmonton, AB</option>
-            <option value="ottawa">Ottawa, ON</option>
-            <option value="montreal">Montreal, QC</option>
-            <option value="winnipeg">Winnipeg, MB</option>
-            <option value="halifax">Halifax, NS</option>
-            <option value="saskatoon">Saskatoon, SK</option>
-            <option value="victoria">Victoria, BC</option>
+            <option value="sf">San Francisco, CA</option>
+            <option value="nyc">New York, NY</option>
+            <option value="honolulu">Honolulu, HI</option>
+            <option value="boston">Boston, MA</option>
+            <option value="dc">Washington, DC</option>
+            <option value="la">Los Angeles, CA</option>
+            <option value="seattle">Seattle, WA</option>
+            <option value="miami">Miami, FL</option>
+            <option value="chicago">Chicago, IL</option>
+            <option value="denver">Denver, CO</option>
+            <option value="austin">Austin, TX</option>
+            <option value="portland">Portland, OR</option>
+            <option value="minneapolis">Minneapolis, MN</option>
+            <option value="atlanta">Atlanta, GA</option>
+            <option value="nashville">Nashville, TN</option>
+            <option value="phoenix">Phoenix, AZ</option>
+            <option value="dallas">Dallas, TX</option>
+            <option value="charlotte">Charlotte, NC</option>
+            <option value="houston">Houston, TX</option>
+            <option value="columbus">Columbus, OH</option>
           </select>
         </div>
       </div>
@@ -55,7 +75,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <div class="results" id="results">
-      <strong style="color:var(--indigo);">Cost of Living Comparison</strong>
+      <strong style="color:var(--text);">Cost of Living Comparison</strong>
       <div class="results-grid" style="margin-top:0.75rem;">
         <div class="result-item result-highlight">
           <span class="result-value" id="equiv-salary">—</span>
@@ -70,55 +90,86 @@ import Layout from '../layouts/Layout.astro';
           <span class="result-label">Salary Adjustment</span>
         </div>
       </div>
-      <p id="col-summary" style="margin-top:1rem;font-size:0.9rem;color:var(--muted);border-top:1px solid #6ee7b7;padding-top:1rem;"></p>
+      <p id="col-summary" style="margin-top:1rem;font-size:0.9rem;color:var(--muted);border-top:1px solid #fcd34d;padding-top:1rem;"></p>
     </div>
   </div>
 
   <div class="ad-slot ad-slot-banner">Ad</div>
 
   <div class="card">
-    <h2>Cost of Living Index — Major Canadian Cities</h2>
-    <p>Toronto = 100 (base). Higher = more expensive. Indices are approximate composites of housing, food, transportation, and services.</p>
+    <h2>Cost of Living Index — Major US Cities</h2>
+    <p>New York City = 100 (base). Higher = more expensive. Indices are approximate composites of housing, food, transportation, and services.</p>
     <table class="bench-table">
-      <thead><tr><th>City</th><th>COL Index</th><th>vs. Toronto</th></tr></thead>
+      <thead><tr><th>City</th><th>COL Index</th><th>vs. New York City</th></tr></thead>
       <tbody>
-        <tr><td>Vancouver, BC</td><td>108</td><td>8% more expensive</td></tr>
-        <tr><td>Toronto, ON</td><td>100</td><td>Baseline</td></tr>
-        <tr><td>Victoria, BC</td><td>92</td><td>8% cheaper</td></tr>
-        <tr><td>Ottawa, ON</td><td>88</td><td>12% cheaper</td></tr>
-        <tr><td>Calgary, AB</td><td>87</td><td>13% cheaper</td></tr>
-        <tr><td>Edmonton, AB</td><td>80</td><td>20% cheaper</td></tr>
-        <tr><td>Montreal, QC</td><td>78</td><td>22% cheaper</td></tr>
-        <tr><td>Halifax, NS</td><td>74</td><td>26% cheaper</td></tr>
-        <tr><td>Saskatoon, SK</td><td>70</td><td>30% cheaper</td></tr>
-        <tr><td>Winnipeg, MB</td><td>69</td><td>31% cheaper</td></tr>
+        <tr><td>New York, NY</td><td>100</td><td>Baseline</td></tr>
+        <tr><td>San Francisco, CA</td><td>97</td><td>3% cheaper</td></tr>
+        <tr><td>Honolulu, HI</td><td>90</td><td>10% cheaper</td></tr>
+        <tr><td>Boston, MA</td><td>86</td><td>14% cheaper</td></tr>
+        <tr><td>Washington, DC</td><td>83</td><td>17% cheaper</td></tr>
+        <tr><td>Los Angeles, CA</td><td>80</td><td>20% cheaper</td></tr>
+        <tr><td>Seattle, WA</td><td>76</td><td>24% cheaper</td></tr>
+        <tr><td>Miami, FL</td><td>66</td><td>34% cheaper</td></tr>
+        <tr><td>Chicago, IL</td><td>64</td><td>36% cheaper</td></tr>
+        <tr><td>Denver, CO</td><td>63</td><td>37% cheaper</td></tr>
+        <tr><td>Austin, TX</td><td>62</td><td>38% cheaper</td></tr>
+        <tr><td>Portland, OR</td><td>61</td><td>39% cheaper</td></tr>
+        <tr><td>Minneapolis, MN</td><td>59</td><td>41% cheaper</td></tr>
+        <tr><td>Atlanta, GA</td><td>57</td><td>43% cheaper</td></tr>
+        <tr><td>Nashville, TN</td><td>56</td><td>44% cheaper</td></tr>
+        <tr><td>Phoenix, AZ</td><td>55</td><td>45% cheaper</td></tr>
+        <tr><td>Dallas, TX</td><td>54</td><td>46% cheaper</td></tr>
+        <tr><td>Charlotte, NC</td><td>52</td><td>48% cheaper</td></tr>
+        <tr><td>Houston, TX</td><td>51</td><td>49% cheaper</td></tr>
+        <tr><td>Columbus, OH</td><td>48</td><td>52% cheaper</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted);">Source: Composite estimates based on Numbeo, Statistics Canada housing data, and CMHC rental reports. Indices updated 2025.</p>
+    <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted);">Source: Composite estimates based on BLS Consumer Expenditure Survey, Census Bureau housing data, and Numbeo city cost indices. Indices updated 2025.</p>
   </div>
 
   <div class="card">
     <h2>Frequently Asked Questions</h2>
     <details>
-      <summary>Is Vancouver or Toronto more expensive?</summary>
-      <p>Vancouver is slightly more expensive than Toronto overall, primarily due to higher housing costs in desirable areas. However, Toronto's commuter suburbs have seen significant price increases. Both cities are substantially more expensive than the Canadian average — plan for roughly 30–50% higher housing costs than mid-sized cities like Calgary or Ottawa.</p>
+      <summary>Is San Francisco or New York more expensive?</summary>
+      <p>They're comparable at the top of the US cost spectrum. New York is slightly more expensive overall due to higher taxes and transit costs, while San Francisco's housing in desirable neighborhoods rivals Manhattan. Both cities are roughly 50–100% more expensive than mid-tier cities like Denver, Austin, or Atlanta. Remote workers leaving either city for the Midwest or South typically see dramatic lifestyle improvements at the same income.</p>
     </details>
     <details>
       <summary>Should I take a lower salary to move to a cheaper city?</summary>
-      <p>Use this calculator to find your break-even point. If Calgary's cost of living is 87% of Toronto's, a $75,000 Toronto salary is equivalent to $65,250 in Calgary. If your employer is offering more than that, you're ahead. Don't forget to factor in provincial income tax — Alberta has no provincial sales tax and lower income tax rates, which significantly improves take-home pay.</p>
+      <p>Use this calculator to find your break-even point. If Austin's cost of living is 62% of New York's, a $120,000 NYC salary is equivalent to about $74,400 in Austin. If your new employer offers more than that, you come out ahead financially. Don't forget to factor in state income tax — Texas has no income tax, which adds meaningfully to take-home pay versus California or New York.</p>
     </details>
     <details>
       <summary>How accurate are these cost of living estimates?</summary>
-      <p>These indices are useful for ballpark comparisons but your actual cost difference depends heavily on your lifestyle — especially housing choices. Someone who rents downtown Toronto vs. owns a house in suburban Winnipeg will see very different numbers. For a precise comparison, research specific rental/housing costs, groceries, and transportation in your target neighbourhood.</p>
+      <p>These indices are useful for ballpark comparisons but your actual cost difference depends heavily on lifestyle — especially housing choices. Someone renting in Manhattan vs. buying a house in suburban Columbus will see very different numbers. For a precise comparison, research specific rental or housing costs, groceries, and transportation in your target neighborhood.</p>
+    </details>
+    <details>
+      <summary>Does cost of living affect my taxes?</summary>
+      <p>Indirectly, yes. Moving from a high-tax state (California, New York) to a no-income-tax state (Texas, Florida, Washington) significantly increases take-home pay on the same salary. Use our <a href="/paycheck-calculator/">Paycheck Calculator</a> to compare take-home pay in different states — the difference can exceed $5,000–$15,000/year for higher earners.</p>
     </details>
   </div>
 </Layout>
 
 <script is:inline>
 const COL_INDEX = {
-  toronto: 100, vancouver: 108, calgary: 87, edmonton: 80,
-  ottawa: 88, montreal: 78, winnipeg: 69, halifax: 74,
-  saskatoon: 70, victoria: 92,
+  nyc:         100,
+  sf:          97,
+  honolulu:    90,
+  boston:      86,
+  dc:          83,
+  la:          80,
+  seattle:     76,
+  miami:       66,
+  chicago:     64,
+  denver:      63,
+  austin:      62,
+  portland:    61,
+  minneapolis: 59,
+  atlanta:     57,
+  nashville:   56,
+  phoenix:     55,
+  dallas:      54,
+  charlotte:   52,
+  houston:     51,
+  columbus:    48,
 };
 
 function fmt(n, d = 0) {
@@ -141,12 +192,14 @@ function calculate() {
 
   document.getElementById('equiv-salary').textContent = fmt(equivSalary);
   document.getElementById('col-diff').textContent = (ratio > 1 ? '+' : '') + pctDiff + '%';
-  document.getElementById('salary-diff').textContent = (diff >= 0 ? '+' : '-') + fmt(diff);
+  document.getElementById('salary-diff').textContent = (diff >= 0 ? '+' : '-') + fmt(Math.abs(diff));
 
   const fromName = document.getElementById('city-from').options[document.getElementById('city-from').selectedIndex].text;
   const toName = document.getElementById('city-to').options[document.getElementById('city-to').selectedIndex].text;
   const direction = ratio > 1 ? 'more expensive' : 'less expensive';
-  const action = diff > 0 ? `you would need a raise of ${fmt(diff)} to maintain the same standard of living` : `you could maintain the same lifestyle earning ${fmt(Math.abs(diff))} less per year`;
+  const action = diff > 0
+    ? `you would need a raise of ${fmt(Math.abs(diff))} to maintain the same standard of living`
+    : `you could maintain the same lifestyle earning ${fmt(Math.abs(diff))} less per year`;
 
   document.getElementById('col-summary').textContent =
     `${toName} is ${Math.abs(parseFloat(pctDiff))}% ${direction} than ${fromName}. On your current salary of ${fmt(salary)}, ${action}.`;

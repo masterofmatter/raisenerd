@@ -47,7 +47,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <div class="results" id="results">
-      <strong style="color:var(--indigo);">Weekly Pay Breakdown</strong>
+      <strong style="color:var(--text);">Weekly Pay Breakdown</strong>
       <div class="results-grid" style="margin-top:0.75rem;">
         <div class="result-item">
           <span class="result-value" id="regular-pay">—</span>
@@ -84,38 +84,38 @@ import Layout from '../layouts/Layout.astro';
   <div class="ad-slot ad-slot-banner">Ad</div>
 
   <div class="card">
-    <h2>Overtime Pay Rules in Canada</h2>
-    <p>Overtime rules vary by province. Generally, overtime kicks in after 40–44 hours per week at 1.5× your regular rate.</p>
+    <h2>Overtime Pay Rules — US Federal &amp; State</h2>
+    <p>Under the federal Fair Labor Standards Act (FLSA), overtime kicks in after 40 hours in a workweek at 1.5× your regular rate. A few states have stricter daily thresholds.</p>
     <table class="bench-table">
-      <thead><tr><th>Province</th><th>Overtime Threshold</th><th>OT Rate</th></tr></thead>
+      <thead><tr><th>Jurisdiction</th><th>Overtime Threshold</th><th>OT Rate</th></tr></thead>
       <tbody>
-        <tr><td>Ontario</td><td>After 44 hrs/week</td><td>1.5×</td></tr>
-        <tr><td>British Columbia</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5× (2× after 12 hrs/day)</td></tr>
-        <tr><td>Alberta</td><td>After 8 hrs/day or 44 hrs/week</td><td>1.5×</td></tr>
-        <tr><td>Quebec</td><td>After 40 hrs/week</td><td>1.5×</td></tr>
-        <tr><td>Federal (Canada Labour Code)</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>Federal (FLSA)</td><td>After 40 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>California</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5× (2× after 12 hrs/day or 8 hrs on 7th consecutive day)</td></tr>
+        <tr><td>Nevada</td><td>After 8 hrs/day (if wage &lt; 1.5× min. wage) or 40 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>Alaska</td><td>After 8 hrs/day or 40 hrs/week</td><td>1.5×</td></tr>
+        <tr><td>All other states</td><td>After 40 hrs/week</td><td>1.5×</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:0.75rem;font-size:0.85rem;">Always verify with your provincial employment standards — rules change and some industries have exceptions.</p>
+    <p style="margin-top:0.75rem;font-size:0.85rem;">Most states follow the federal 40-hour weekly threshold. Always verify with your state's Department of Labor — rules vary by industry and exempt status.</p>
   </div>
 
   <div class="card">
     <h2>Frequently Asked Questions</h2>
     <details>
       <summary>How is overtime pay calculated?</summary>
-      <p>Overtime pay = regular hourly rate × overtime multiplier × overtime hours. Standard overtime in most Canadian provinces is 1.5× (time and a half). Example: $25/hr regular × 1.5 × 5 overtime hours = $187.50 in overtime pay for the week.</p>
+      <p>Overtime pay = regular hourly rate × overtime multiplier × overtime hours. Under the FLSA, standard overtime is 1.5× (time and a half). Example: $25/hr regular × 1.5 × 5 overtime hours = $187.50 in overtime pay for the week. Your total weekly pay would be $25 × 40 regular hours + $187.50 = $1,187.50.</p>
     </details>
     <details>
       <summary>Do salaried employees get overtime?</summary>
-      <p>It depends. Many salaried employees in managerial or supervisory roles are exempt from overtime under provincial employment standards. However, if your salary doesn't effectively compensate for all hours worked, you may have a claim. Check your province's employment standards or consult an employment lawyer.</p>
+      <p>It depends on your classification. Under the FLSA, salaried employees earning less than $684/week ($35,568/year) are generally entitled to overtime regardless of job duties. Above that threshold, executive, administrative, and professional employees are typically exempt. If you're misclassified, you can file a complaint with the US Department of Labor Wage and Hour Division.</p>
     </details>
     <details>
       <summary>Can my employer refuse to pay overtime?</summary>
-      <p>In Canada, employers cannot contract out of overtime pay requirements under provincial employment standards legislation. If your employer asks you to work overtime but refuses to pay at the required rate, you can file a complaint with your province's employment standards office.</p>
+      <p>No — if you are a non-exempt employee under the FLSA, your employer is legally required to pay overtime at 1.5× your regular rate for hours over 40 in a workweek. Employers cannot waive this requirement through an agreement or policy. If you're owed unpaid overtime, you can file a complaint at dol.gov or consult an employment attorney.</p>
     </details>
     <details>
-      <summary>What is banked overtime?</summary>
-      <p>Some provinces allow employers to bank overtime hours as paid time off instead of paying the premium rate. In Ontario, for example, you must agree in writing, and banked time is at the same hours (not 1.5× hours). Check if your province allows this arrangement.</p>
+      <summary>What is comp time instead of overtime pay?</summary>
+      <p>Compensatory time off (comp time) in lieu of overtime pay is generally not allowed for private-sector employees under the FLSA — you must receive cash payment at 1.5×. Comp time is permitted for state and local government employees under specific conditions. Some employers offer voluntary comp time informally, but this doesn't satisfy your legal right to overtime pay.</p>
     </details>
   </div>
 </Layout>
