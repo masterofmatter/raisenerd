@@ -122,7 +122,8 @@ import Layout from '../layouts/Layout.astro';
 
 <script is:inline>
 function fmt(n, d = 2) {
-  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
 }
 function calculate() {
   const rate = parseFloat(document.getElementById('hourly-rate').value) || 0;
@@ -148,4 +149,5 @@ function calculate() {
   document.getElementById('results').classList.add('show');
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+document.addEventListener('currencychange', () => { if (document.getElementById('results').classList.contains('show')) calculate(); });
 </script>

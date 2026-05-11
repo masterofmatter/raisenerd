@@ -141,7 +141,8 @@ function setMode(mode) {
   document.getElementById('results').classList.remove('show');
 }
 function fmt(n, d = 2) {
-  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
 }
 function show(hourlyRate, hoursPerWeek) {
   document.getElementById('res-hourly').textContent = fmt(hourlyRate);
@@ -166,4 +167,9 @@ function calcFromHourly() {
   show(rate, hrs);
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') { document.getElementById('mode-salary').style.display !== 'none' ? calcFromSalary() : calcFromHourly(); }});
+document.addEventListener('currencychange', () => {
+  if (document.getElementById('results').classList.contains('show')) {
+    document.getElementById('mode-salary').style.display !== 'none' ? calcFromSalary() : calcFromHourly();
+  }
+});
 </script>

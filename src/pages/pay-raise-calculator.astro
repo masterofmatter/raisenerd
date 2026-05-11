@@ -151,7 +151,8 @@ function setMode(mode) {
   document.getElementById('results').classList.remove('show');
 }
 function fmt(n, decimals = 0) {
-  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
 }
 function showResults(currentSalary, newSalary) {
   const raise = newSalary - currentSalary;
@@ -177,4 +178,9 @@ function calcFromAmount() {
   showResults(current, newSal);
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter') { document.querySelector('.tab.active') && document.getElementById('mode-pct').style.display !== 'none' ? calcFromPct() : calcFromAmount(); }});
+document.addEventListener('currencychange', () => {
+  if (document.getElementById('results').classList.contains('show')) {
+    document.getElementById('mode-pct').style.display !== 'none' ? calcFromPct() : calcFromAmount();
+  }
+});
 </script>

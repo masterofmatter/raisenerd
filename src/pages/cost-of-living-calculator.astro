@@ -122,7 +122,8 @@ const COL_INDEX = {
 };
 
 function fmt(n, d = 0) {
-  return '$' + Math.abs(n).toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const c = window.__currency || { locale: 'en-US', code: 'USD' };
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, minimumFractionDigits: d, maximumFractionDigits: d }).format(Math.abs(n));
 }
 
 function calculate() {
